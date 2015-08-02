@@ -6,13 +6,13 @@
 #
 #
 GITHUB_API="https://api.github.com/repos"
-LRL_GITHUB_REPOSITORIES="fielddb/fielddb RichardLitt/endangered-languages"
+LRL_GITHUB_REPOSITORIES=`cat ../data/lrl_repositories_github.txt`
 
-
+echo "$LRL_GITHUB_REPOSITORIES";
 
 for repo in $LRL_GITHUB_REPOSITORIES; do
   echo "curl $GITHUB_API/$repo";
-  json=`curl $GITHUB_API/$repo`;
+  json=`curl $GITHUB_API/$repo?access_token=$GITHUB_API_TOKEN`;
   echo "$repo"
   echo  " $json" | grep "stargazers_count" ;
   echo  " $json" | grep "watchers_count" ;

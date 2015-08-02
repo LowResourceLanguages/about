@@ -1,2 +1,63 @@
 # about
 A meta repository for discussion, planning, and documentation of this organization
+
+
+
+
+------
+
+## Best practices for project maintainers
+
+This section describes what you can do as a LRL project maintainer to help others find your project, and maybe even help you maintain it. 
+
+### Publish your package
+
+If you are building something that might be interesting to other low resource language developers we reccomend you:
+
+* Publish your package with the appropriate package manager for your framework/technology/programming language, if you know how to do this.
+* Add the keyword/tag "LRL" to your project so that other developers can find it more easily.
+
+
+### Prominately display the link/badge to your published package
+
+If you want to add a link to the package manager of the project (where developers usually download code), you can use a badge for NPM/PyPI/Gems/SourceForge/Maven among [others](http://shields.io) to your README.md 
+
+Adding a badge showing the downloads can help list users discover that others are using your project (keep in mind that number of downloads for a low resource language doesn't really mattter, so the more downloads doesn't necessarily mean that the package will be more useful for the next developer.)
+
+
+Javascript (NPM) 
+[![npm](https://img.shields.io/npm/dm/fielddb.svg)]()
+
+Python (PyPI)
+[![PyPI](https://img.shields.io/pypi/dm/nltk.svg)]()
+
+Ruby (Gems)
+[![Gem](https://img.shields.io/gem/dt/nlp.svg)]()
+
+SourceForge 
+[![SourceForge](https://img.shields.io/sourceforge/dt/hittitefont.svg)]()
+
+
+### Search for existing LRL packages on package managers
+
+Current Data (July 30 2015) for LRL (Low resource Languages) vs NLP (Natural Language Processing) packages among popular package managers:
+
+* github data demonstrating that finding lrl packages is hard
+	* 3,700 projects for NLP https://github.com/search?utf8=✓&q=nlp&type=Repositories
+	* 7 projects for LRL https://github.com/search?utf8=✓&q=low+resource+languages&type=Repositories
+* SourceForge data demonstrating that finding lrl packages is hard
+	* 29 projects for NLP http://sourceforge.net/directory/os:mac/freshness:recently-updated/?q=nlp
+	* 0 projects for LRL http://sourceforge.net/directory/os:mac/freshness:recently-updated/?q=lrl
+* NPM data demonstrating that finding lrl packages is hard
+	* 119 projects for nlp  https://www.npmjs.com/search?q=nlp
+	* 0 projects for lrl related words https://www.npmjs.com/search?q=lrl
+* Python data demonstrating that finding lrl packages is hard
+	* 141 projects for nlp  https://pypi.python.org/pypi?%3Aaction=search&term=nlp&submit=search
+	* 0 projects for lrl https://pypi.python.org/pypi?%3Aaction=search&term=lrl&submit=search
+* Perl data demonstrating that finding lrl packages is hard
+	* 11 projects for nlp http://code.activestate.com/ppm/search:nlp/
+	* 0 projects for lrl http://code.activestate.com/ppm/search:lrl/
+* GATE data demonstrating that finding lrl packages is hard
+	* 221 plugins for nlp  https://gate.ac.uk/gate/doc/plugins.html
+	* 0 plugins for lrl  https://gate.ac.uk/gate/doc/plugins.html
+

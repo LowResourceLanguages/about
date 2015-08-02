@@ -1,22 +1,27 @@
-# About 
+# About
 A meta repository for discussion, planning, and documentation of this organization
 
-What to encourage us? Star the list:
-
-[![stars](http://githubbadges.com/star.svg?user=RichardLitt&repo=endangered-languages)](http://github.com/RichardLitt/endangered-languages)
 
 
-Want to see how many people are helping on a project? 
+------
+
+## Showing social project stats
+
+What to encourage a project, add a "Stars" badge:
+
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages)
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages)
+
+What to show how many people are contributing to a project, add a "Forks" badge:
 
 [![forks](http://githubbadges.com/fork.svg?user=RichardLitt&repo=endangered-languages)](http://github.com/RichardLitt/endangered-languages/fork)
 
+[![GitHub forks](https://img.shields.io/github/forks/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages/fork)
+[![GitHub forks](https://img.shields.io/github/forks/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages/fork)
 
 
-Want to get encourage developers? You can follow them: 
-
-<iframe src="https://ghbtns.com/github-btn.html?user=RichardLitt&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+Want to get encourage a developer? add a "Followers" badge: 
 
 
-Want to recieve updates on a project? You can watch them:
-
-<iframe src="https://ghbtns.com/github-btn.html?user=RichardLitt&repo=endangered-languages&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg)]()
+[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg?style=social)]()

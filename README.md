@@ -14,8 +14,6 @@ What to encourage a project, add a "Stars" badge:
 
 What to show how many people are contributing to a project, add a "Forks" badge:
 
-[![forks](http://githubbadges.com/fork.svg?user=RichardLitt&repo=endangered-languages)](http://github.com/RichardLitt/endangered-languages/fork)
-
 [![GitHub forks](https://img.shields.io/github/forks/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages/fork)
 [![GitHub forks](https://img.shields.io/github/forks/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages/fork)
 

@@ -9,8 +9,8 @@ A meta repository for discussion, planning, and documentation of this organizati
 
 What to encourage a project? Add a "Stars" badge:
 
-[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages)
-[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages)
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages/stargazers)
 
 What to show how many people are contributing to a project? Add a "Forks" badge:
 

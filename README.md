@@ -9,8 +9,8 @@ A meta repository for discussion, planning, and documentation of this organizati
 
 What to encourage a project, add a "Stars" badge:
 
-[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages/stargazers)
-[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages)
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages)
 
 What to show how many people are contributing to a project, add a "Forks" badge:
 
@@ -21,5 +21,6 @@ What to show how many people are contributing to a project, add a "Forks" badge:
 Want to get encourage a developer? add a "Followers" badge: 
 
 
-[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg)]()
-[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg?style=social)]()
+[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg)](http://github.com/RichardLitt/followers)
+[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg?style=social)](http://github.com/RichardLitt/followers)
+

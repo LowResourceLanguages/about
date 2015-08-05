@@ -1,7 +1,5 @@
-# about
+# About
 A meta repository for discussion, planning, and documentation of this organization
-
-
 
 
 ------
@@ -60,4 +58,25 @@ Current Data (July 30 2015) for LRL (Low resource Languages) vs NLP (Natural Lan
 * GATE data demonstrating that finding lrl packages is hard
 	* 221 plugins for nlp  https://gate.ac.uk/gate/doc/plugins.html
 	* 0 plugins for lrl  https://gate.ac.uk/gate/doc/plugins.html
+=======
+------
+
+## Showing social project stats
+
+What to encourage a project? Add a "Stars" badge:
+
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages/stargazers)
+
+What to show how many people are contributing to a project? Add a "Forks" badge:
+
+[![GitHub forks](https://img.shields.io/github/forks/RichardLitt/endangered-languages.svg)](http://github.com/RichardLitt/endangered-languages/fork)
+[![GitHub forks](https://img.shields.io/github/forks/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages/fork)
+
+
+Want to get encourage a developer? Add a "Followers" badge: 
+
+
+[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg)](http://github.com/RichardLitt/followers)
+[![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg?style=social)](http://github.com/RichardLitt/followers)
 

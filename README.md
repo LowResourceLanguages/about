@@ -2,11 +2,9 @@
 A meta repository for discussion, planning, and documentation of this organization
 
 
-------
-
 ## Best practices for project maintainers
 
-This section describes what you can do as a LRL project maintainer to help others find your project, and maybe even help you maintain it. 
+This section describes what you can do as a LRL project maintainer to help others find your project, and maybe even help you maintain it.
 
 ### Publish your package
 
@@ -18,12 +16,12 @@ If you are building something that might be interesting to other low resource la
 
 ### Prominately display the link/badge to your published package
 
-If you want to add a link to the package manager of the project (where developers usually download code), you can use a badge for NPM/PyPI/Gems/SourceForge/Maven among [others](http://shields.io) to your README.md 
+If you want to add a link to the package manager of the project (where developers usually download code), you can use a badge for NPM/PyPI/Gems/SourceForge/Maven among [others](http://shields.io) to your README.md
 
-Adding a badge showing the downloads can help list users discover that others are using your project (keep in mind that number of downloads for a low resource language doesn't really mattter, so the more downloads doesn't necessarily mean that the package will be more useful for the next developer.)
+Adding a badge showing the downloads can help list users discover that others are using your project (keep in mind that number of downloads for a low resource language doesn't really mattter, so the more downloads doesn't necessarily mean that the package will be more useful for the next developer).
 
 
-Javascript (NPM) 
+Javascript (NPM)
 [![npm](https://img.shields.io/npm/dm/fielddb.svg)]()
 
 Python (PyPI)
@@ -32,7 +30,7 @@ Python (PyPI)
 Ruby (Gems)
 [![Gem](https://img.shields.io/gem/dt/nlp.svg)]()
 
-SourceForge 
+SourceForge
 [![SourceForge](https://img.shields.io/sourceforge/dt/hittitefont.svg)]()
 
 
@@ -58,8 +56,6 @@ Current Data (July 30 2015) for LRL (Low resource Languages) vs NLP (Natural Lan
 * GATE data demonstrating that finding lrl packages is hard
 	* 221 plugins for nlp  https://gate.ac.uk/gate/doc/plugins.html
 	* 0 plugins for lrl  https://gate.ac.uk/gate/doc/plugins.html
-=======
-------
 
 ## Showing social project stats
 
@@ -74,7 +70,7 @@ What to show how many people are contributing to a project? Add a "Forks" badge:
 [![GitHub forks](https://img.shields.io/github/forks/RichardLitt/endangered-languages.svg?style=social)](http://github.com/RichardLitt/endangered-languages/fork)
 
 
-Want to get encourage a developer? Add a "Followers" badge: 
+Want to get encourage a developer? Add a "Followers" badge:
 
 
 [![GitHub followers](https://img.shields.io/github/followers/RichardLitt.svg)](http://github.com/RichardLitt/followers)

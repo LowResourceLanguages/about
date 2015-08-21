@@ -1,6 +1,31 @@
 # About
 A meta repository for discussion, planning, and documentation of this organization
 
+## LowResouceLanguages
+
+This GitHub organization was created:
+	- To provide a place for people to upload projects related to low resource language that they do not want on their personal or institutional accounts;
+	- To mirror code hosted on other sites, such as SourceForge or institutional or personal websites, where the longevity of the web hosting is not sure and hosting it here ensures that it will have a place to stay;
+	- To fork projects on GitHub that may be in danger of being removed or becoming stale due to lack of community effort.
+
+## FAQ
+
+*I've been invited and I'm not sure why.*
+
+We invited a fair amount of people who work on low resource languages to this organization; your membership is not public unless you choose to make it so. We hope that you contribute by hosting any code that you do not have on a GitHub repository already in this organization, fork any projects you find particularly useful, and jump into discussions in the GitHub issues for this repository. Membership does not mean you have to do anything, though!
+
+*Couldn't forking or mirroring old code result in a lot of stale code?*
+
+It might, but we think that stale code is better than losing code (or data, or repositories).
+
+*What about licensing?*
+
+Code here should always include a license, and should be in the public domain.
+
+*Where is the line for what constitutes useful for endangered language revitalization and not just field linguists? Does any computer language repository count?*
+
+If you're unsure about something, open an issue here and we can talk about it. For now, use your own discretion.
+
 
 ## Best practices for project maintainers
 

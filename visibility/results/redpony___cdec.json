@@ -69,7 +69,7 @@
   "clone_url": "https://github.com/redpony/cdec.git",
   "svn_url": "https://github.com/redpony/cdec",
   "homepage": "http://cdec-decoder.org/",
-  "size": 238316,
+  "size": 238324,
   "stargazers_count": 104,
   "watchers_count": 104,
   "language": "C++",

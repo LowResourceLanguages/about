@@ -63,7 +63,7 @@
   "releases_url": "https://api.github.com/repos/katspaugh/wavesurfer.js/releases{/id}",
   "created_at": "2012-03-04T14:38:02Z",
   "updated_at": "2015-08-26T20:53:47Z",
-  "pushed_at": "2015-08-27T05:02:31Z",
+  "pushed_at": "2015-08-27T19:47:20Z",
   "git_url": "git://github.com/katspaugh/wavesurfer.js.git",
   "ssh_url": "git@github.com:katspaugh/wavesurfer.js.git",
   "clone_url": "https://github.com/katspaugh/wavesurfer.js.git",
@@ -90,5 +90,5 @@
     "pull": true
   },
   "network_count": 308,
-  "subscribers_count": 110
+  "subscribers_count": 109
 }

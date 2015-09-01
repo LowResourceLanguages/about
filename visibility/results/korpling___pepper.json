@@ -63,7 +63,7 @@
   "releases_url": "https://api.github.com/repos/korpling/pepper/releases{/id}",
   "created_at": "2014-07-10T14:19:44Z",
   "updated_at": "2015-07-31T09:33:03Z",
-  "pushed_at": "2015-08-25T15:59:39Z",
+  "pushed_at": "2015-08-31T13:43:36Z",
   "git_url": "git://github.com/korpling/pepper.git",
   "ssh_url": "git@github.com:korpling/pepper.git",
   "clone_url": "https://github.com/korpling/pepper.git",

@@ -63,7 +63,7 @@
   "releases_url": "https://api.github.com/repos/IQSS/dataverse/releases{/id}",
   "created_at": "2013-11-01T18:47:39Z",
   "updated_at": "2015-08-31T00:09:15Z",
-  "pushed_at": "2015-08-31T03:50:29Z",
+  "pushed_at": "2015-08-31T23:36:27Z",
   "git_url": "git://github.com/IQSS/dataverse.git",
   "ssh_url": "git@github.com:IQSS/dataverse.git",
   "clone_url": "https://github.com/IQSS/dataverse.git",

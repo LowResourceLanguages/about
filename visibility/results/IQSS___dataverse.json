@@ -63,7 +63,7 @@
   "releases_url": "https://api.github.com/repos/IQSS/dataverse/releases{/id}",
   "created_at": "2013-11-01T18:47:39Z",
   "updated_at": "2015-09-02T20:33:06Z",
-  "pushed_at": "2015-09-02T16:00:12Z",
+  "pushed_at": "2015-09-03T21:09:51Z",
   "git_url": "git://github.com/IQSS/dataverse.git",
   "ssh_url": "git@github.com:IQSS/dataverse.git",
   "clone_url": "https://github.com/IQSS/dataverse.git",
@@ -79,9 +79,9 @@
   "has_pages": false,
   "forks_count": 26,
   "mirror_url": null,
-  "open_issues_count": 704,
+  "open_issues_count": 694,
   "forks": 26,
-  "open_issues": 704,
+  "open_issues": 694,
   "watchers": 56,
   "default_branch": "4.2",
   "permissions": {
@@ -109,5 +109,5 @@
     "site_admin": false
   },
   "network_count": 26,
-  "subscribers_count": 31
+  "subscribers_count": 32
 }

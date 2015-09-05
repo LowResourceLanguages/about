@@ -63,7 +63,7 @@
   "releases_url": "https://api.github.com/repos/atilika/kuromoji/releases{/id}",
   "created_at": "2011-01-20T06:23:21Z",
   "updated_at": "2015-08-21T10:28:00Z",
-  "pushed_at": "2015-08-28T06:41:20Z",
+  "pushed_at": "2015-09-04T22:15:38Z",
   "git_url": "git://github.com/atilika/kuromoji.git",
   "ssh_url": "git@github.com:atilika/kuromoji.git",
   "clone_url": "https://github.com/atilika/kuromoji.git",
@@ -109,5 +109,5 @@
     "site_admin": false
   },
   "network_count": 55,
-  "subscribers_count": 36
+  "subscribers_count": 37
 }

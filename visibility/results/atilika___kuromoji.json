@@ -62,16 +62,16 @@
   "labels_url": "https://api.github.com/repos/atilika/kuromoji/labels{/name}",
   "releases_url": "https://api.github.com/repos/atilika/kuromoji/releases{/id}",
   "created_at": "2011-01-20T06:23:21Z",
-  "updated_at": "2015-09-07T16:28:09Z",
-  "pushed_at": "2015-09-06T01:05:18Z",
+  "updated_at": "2015-09-08T20:14:26Z",
+  "pushed_at": "2015-09-09T04:10:33Z",
   "git_url": "git://github.com/atilika/kuromoji.git",
   "ssh_url": "git@github.com:atilika/kuromoji.git",
   "clone_url": "https://github.com/atilika/kuromoji.git",
   "svn_url": "https://github.com/atilika/kuromoji",
   "homepage": "http://atilika.org/",
   "size": 5211,
-  "stargazers_count": 211,
-  "watchers_count": 211,
+  "stargazers_count": 212,
+  "watchers_count": 212,
   "language": "Java",
   "has_issues": false,
   "has_downloads": true,
@@ -82,7 +82,7 @@
   "open_issues_count": 0,
   "forks": 55,
   "open_issues": 0,
-  "watchers": 211,
+  "watchers": 212,
   "default_branch": "master",
   "permissions": {
     "admin": false,
@@ -109,5 +109,5 @@
     "site_admin": false
   },
   "network_count": 55,
-  "subscribers_count": 37
+  "subscribers_count": 36
 }

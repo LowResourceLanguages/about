@@ -63,7 +63,7 @@
   "releases_url": "https://api.github.com/repos/l20n/l20n.js/releases{/id}",
   "created_at": "2012-08-10T08:17:42Z",
   "updated_at": "2015-09-10T16:25:54Z",
-  "pushed_at": "2015-09-08T22:26:24Z",
+  "pushed_at": "2015-09-11T21:09:33Z",
   "git_url": "git://github.com/l20n/l20n.js.git",
   "ssh_url": "git@github.com:l20n/l20n.js.git",
   "clone_url": "https://github.com/l20n/l20n.js.git",
@@ -79,9 +79,9 @@
   "has_pages": false,
   "forks_count": 37,
   "mirror_url": null,
-  "open_issues_count": 7,
+  "open_issues_count": 8,
   "forks": 37,
-  "open_issues": 7,
+  "open_issues": 8,
   "watchers": 697,
   "default_branch": "master",
   "permissions": {
@@ -109,5 +109,5 @@
     "site_admin": false
   },
   "network_count": 37,
-  "subscribers_count": 25
+  "subscribers_count": 26
 }

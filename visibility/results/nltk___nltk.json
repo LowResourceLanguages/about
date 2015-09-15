@@ -62,16 +62,16 @@
   "labels_url": "https://api.github.com/repos/nltk/nltk/labels{/name}",
   "releases_url": "https://api.github.com/repos/nltk/nltk/releases{/id}",
   "created_at": "2009-09-07T10:53:58Z",
-  "updated_at": "2015-09-14T02:58:50Z",
-  "pushed_at": "2015-09-13T18:51:28Z",
+  "updated_at": "2015-09-15T02:57:44Z",
+  "pushed_at": "2015-09-15T06:17:08Z",
   "git_url": "git://github.com/nltk/nltk.git",
   "ssh_url": "git@github.com:nltk/nltk.git",
   "clone_url": "https://github.com/nltk/nltk.git",
   "svn_url": "https://github.com/nltk/nltk",
   "homepage": "http://nltk.github.com/",
   "size": 377779,
-  "stargazers_count": 2563,
-  "watchers_count": 2563,
+  "stargazers_count": 2565,
+  "watchers_count": 2565,
   "language": "Python",
   "has_issues": true,
   "has_downloads": false,
@@ -79,10 +79,10 @@
   "has_pages": false,
   "forks_count": 769,
   "mirror_url": null,
-  "open_issues_count": 255,
+  "open_issues_count": 257,
   "forks": 769,
-  "open_issues": 255,
-  "watchers": 2563,
+  "open_issues": 257,
+  "watchers": 2565,
   "default_branch": "develop",
   "permissions": {
     "admin": false,
@@ -109,5 +109,5 @@
     "site_admin": false
   },
   "network_count": 769,
-  "subscribers_count": 273
+  "subscribers_count": 274
 }

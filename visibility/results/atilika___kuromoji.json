@@ -63,7 +63,7 @@
   "releases_url": "https://api.github.com/repos/atilika/kuromoji/releases{/id}",
   "created_at": "2011-01-20T06:23:21Z",
   "updated_at": "2015-09-08T20:14:26Z",
-  "pushed_at": "2015-09-09T04:10:33Z",
+  "pushed_at": "2015-09-15T02:22:28Z",
   "git_url": "git://github.com/atilika/kuromoji.git",
   "ssh_url": "git@github.com:atilika/kuromoji.git",
   "clone_url": "https://github.com/atilika/kuromoji.git",

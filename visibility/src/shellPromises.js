@@ -8,7 +8,7 @@ exports.execute = function(command) {
 
 	console.log(command);
 	deferred = Q.defer();
-	console.log(new Date() + " PATH", process.env.PATH);
+	// console.log(new Date() + " PATH", process.env.PATH);
 
 	localProcess = childProcess.exec(command, function(error, stdout, stderr) {
 		// console.log("in result childProcess");
@@ -21,7 +21,7 @@ exports.execute = function(command) {
 			console.log(error);
 			deferred.reject(error.message.replace(serverInternalPath, ""));
 		} else {
-			console.log("resolving childProcess stdout");
+			// console.log("resolving childProcess stdout");
 			deferred.resolve(stdout);
 		}
 	});

@@ -12,9 +12,8 @@ describe("extract-data", function() {
     it("loop through the revisions", function(done) {
       extractData("experiment/improving-visibility").then(function(results) {
         expect(results).toBeDefined();
-        expect(results.length).toEqual(75);
-        expect(results[results.length-1]).toEqual("5c33b4f4764fec18b9345b21466d42b5a0c55a99");
-      
+        expect(results.measurements).toEqual(57);
+        expect(results[1442523600000]).toBeDefined();
 
       },function(results) {
         expect(results).toBeDefined();

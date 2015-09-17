@@ -1,0 +1,22 @@
+{
+  "name": "lrl-visibility-study",
+  "version": "1.0.0",
+  "description": "A meta repository for discussion, planning, and documentation of this organization",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LowResourceLanguages/about.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LowResourceLanguages/about/issues"
+  },
+  "homepage": "https://github.com/LowResourceLanguages/about#readme",
+  "dependencies": {
+    "q": "^1.2.1"
+  }
+}

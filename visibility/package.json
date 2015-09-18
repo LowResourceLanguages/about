@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/LowResourceLanguages/about#readme",
   "dependencies": {
-    "q": "^1.2.1"
+    "q": "^1.4.1"
   }
 }

@@ -109,6 +109,21 @@ Repository.prototype = Object.create(Object.prototype, {
       });
       return asCSV;
     }
+  },
+
+  clone: {
+    value: function() {
+      var clone = {};
+
+      for (var attrib in this) {
+        if (!this.hasOwnProperty(attrib)) {
+          continue;
+        }
+        clone[attrib] = this[attrib] + "";
+      }
+
+      return new Repository(clone);
+    }
   }
 });
 

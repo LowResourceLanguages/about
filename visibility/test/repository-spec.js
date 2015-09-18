@@ -109,7 +109,34 @@ describe("repository", function() {
       var asCSV = repo.exportAsCSV();
       expect(asCSV).toEqual(['FieldWorks', '976211', '11', '11', '0', '3']);
     });
-    
+
+  });
+
+  describe("clone", function() {
+
+    it("should clone empty fields", function() {
+      var repo = new Repository();
+      expect(repo).toBeDefined();
+
+      var clone = repo.clone();
+      expect(clone).toEqual({});
+    });
+
+    it("should provide data in an array shape", function() {
+      var repo = new Repository({
+        name: 'original'
+      });
+
+      var clone = repo.clone();
+      expect(clone).toBeDefined();
+      expect(clone instanceof Repository).toBeTruthy();
+
+      expect(clone.name).toEqual(repo.name);
+      clone.name = "changed";
+      expect(repo.name).toEqual("original");
+      expect(clone.name).toEqual("changed");
+    });
+
   });
 
 

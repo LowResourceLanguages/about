@@ -2,11 +2,46 @@ var shellPromise = require("./shellPromises").execute;
 var Q = require("q");
 var fs = require("fs");
 
-var data = {
-  measurements: 0
+
+var getBaseLineMeasurements = function(options) {
+  var deferred = Q.defer();
+  Q.nextTick(function() {
+    deferred.resolve(options);
+  });
+  return deferred.promise;
 };
-var parametersToExtract = ["name", "size", "stargazers_count", "watchers_count", "open_issues_count", "forks"];
-var oldestRelevantRevision = "3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4";
+var getRevisionsList = function(options) {
+  var deferred = Q.defer();
+  Q.nextTick(function() {
+    deferred.resolve(options);
+  });
+  return deferred.promise;
+};
+var getDeltasBetweenMeasurements = function(options) {
+  var deferred = Q.defer();
+
+  Q.nextTick(function() {
+    deferred.resolve(options);
+  });
+  return deferred.promise;
+};
+var exportAsTable = function(options) {
+  var deferred = Q.defer();
+  Q.nextTick(function() {
+    deferred.resolve(options);
+  });
+  return deferred.promise;
+};
+
+
+var pipeline = {
+  getBaseLineMeasurements: getBaseLineMeasurements,
+  getRevisionsList: getRevisionsList,
+  getDeltasBetweenMeasurements: getDeltasBetweenMeasurements,
+  exportAsTable: exportAsTable
+};
+
+
 
 var processFile = function(timestamp, filepath) {
   var deferred = Q.defer();
@@ -14,7 +49,7 @@ var processFile = function(timestamp, filepath) {
   console.log("reading " + filepath);
   fs.readAsync(filepath, function(error, repositoryJson) {
     if (error) {
-      console.log(" couldn't read this file " + filepath)
+      console.log(" couldn't read this file " + filepath);
       deferred.reject(error);
       return;
     }
@@ -36,7 +71,7 @@ var extractResultFromJsonAtRevision = function(revision) {
     if (!timestamp) {
       return;
     }
-    var timestamp = timestamp.trim();
+    timestamp = timestamp.trim();
     // Make the timestamp javascript rather than unix
     timestamp = timestamp * 1000;
 
@@ -123,5 +158,4 @@ var extractData = function(dirname) {
 
 };
 
-exports.prepareDataStructure = prepareDataStructure;
-exports.extractData = extractData;
+exports.pipeline = pipeline;

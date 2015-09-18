@@ -69,17 +69,18 @@ var getRevisionsList = function(options) {
     for (var i = results.length - 1; i >= 0; i--) {
       var revision = results[i];
       if (revision === options.startingRevision) {
-        console.log("Found first revision " + revision)
+        // console.log("Found first revision " + revision)
         foundFirstRevision = true;
-      } else if (revision === options.endingRevision) {
-        console.log("Found last revision " + revision)
-        foundLastRevision = true;
       }
       // console.log("Looking at " + revision)
       if (foundFirstRevision && !foundLastRevision && revision) {
         options.measurementsList.push(revision);
       } else {
-        console.log("Found first: " + foundFirstRevision + ", found last: " + foundLastRevision + " revision: " + revision);
+        // console.log("Found first: " + foundFirstRevision + ", found last: " + foundLastRevision + " revision: " + revision);
+      }
+      if (revision === options.endingRevision) {
+        // console.log("Found last revision " + revision)
+        foundLastRevision = true;
       }
     };
     console.log("Here are the relevant revisions ", options.measurementsList.length);
@@ -90,35 +91,28 @@ var getRevisionsList = function(options) {
 
 var getDeltasBetweenMeasurements = function(options) {
   var deferred = Q.defer();
-  Q.nextTick(function() {
 
-    options.data.efg = {
-      timestamp: 124,
-      "repo1": {
-        name: "repo1",
-        size: 678,
-        stargazers_count: 4
-      },
-      "repo2": {
-        name: "repo2",
-        size: 670,
-        stargazers_count: 8
-      }
-    };
+  var promises = [];
+  for (var i = 1; i < options.measurementsList.length; i++) {
+    // Base this measurement on the previous
+    options.data[options.measurementsList[i]] = JSON.parse(JSON.stringify(options.data[options.measurementsList[i - 1]]));
 
-    options.data.hij = {
-      timestamp: 125,
-      "repo1": {
-        name: "repo1",
-        size: 678,
-        stargazers_count: 4
-      },
-      "repo2": {
-        name: "repo2",
-        size: 670,
-        stargazers_count: 8
-      }
-    };
+    // options.data.efg = {
+    //   timestamp: 124,
+    //   "repo1": {
+    //     name: "repo1",
+    //     size: 678,
+    //     stargazers_count: 4
+    //   },
+    //   "repo2": {
+    //     name: "repo2",
+    //     size: 670,
+    //     stargazers_count: 8
+    //   }
+    // };
+
+  }
+  Q.allSettled(promises).then(function() {
 
     deferred.resolve(options);
   });

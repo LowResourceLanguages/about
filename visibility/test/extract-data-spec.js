@@ -32,9 +32,10 @@ describe("extract-data", function() {
           expect(repoStatsOverTime.measurementsList.length).toEqual(3);
           expect(repoStatsOverTime.repositoriesList.length).toEqual(2);
 
-          repoStatsOverTime.measurementsList.map(function(measurementId) {
-            expect(repoStatsOverTime.data[measurementId]).toBeDefined();
-          });
+          expect(repoStatsOverTime.data["3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4"]["AuToBI"].exportAsCSV())
+            .toEqual(['AuToBI', 20071, 12, 12, '', 8]);
+          expect(repoStatsOverTime.data["3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4"]["BloomDesktop"].exportAsCSV())
+            .toEqual(['BloomDesktop', 73499, 6, 6, 4, 12]);
 
           expect(repoStatsOverTime.table).toBeDefined();
           expect(repoStatsOverTime.table.length).toEqual(repoStatsOverTime.measurementsList.length * repoStatsOverTime.repositoriesList.length + 1);

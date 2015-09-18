@@ -71,7 +71,7 @@ var Repository = function(options) {
       console.log("Constructing from options ");
     }
     for (var member in options) {
-      if (!options.hasOwnProperty(member)) {
+      if (!options.hasOwnProperty(member) || this.attributesToExtract.indexOf(member) === -1) {
         continue;
       }
       this[member] = options[member];

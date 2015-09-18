@@ -1,15 +1,17 @@
 var Q = require("q");
+var Repository = require("./repository").Repository;
 
 var shellPromise = require("./shellPromises").execute;
 var utils = require("./utils").utils;
 
-var LIMIT_RUN_SIZE = 3;
+var LIMIT_RUN_SIZE = 2;
 
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
+
+  console.log("TODO checkout starting revision");
   utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
     options.filelist = filelist;
-
 
     var promises = [];
     options.filelist.map(function(filename) {
@@ -21,27 +23,31 @@ var getBaseLineMeasurements = function(options) {
     });
 
     console.log("waiting on " + promises.length + " results");
+    options.data = options.data || {};
+    options.data[options.startingRevision] = options.data[options.startingRevision] || {};
+    options.measurementsList = [options.startingRevision];
+    options.repositoriesList = [];
     Q.allSettled(promises).then(function(results) {
-      console.log("Files ", results);
-      options.data = {
-        abc: {
-          timestamp: 123,
-          "repo1": {
-            name: "repo1",
-            size: 678,
-            stargazers_count: 3
-          },
-          "repo2": {
-            name: "repo2",
-            size: 670,
-            stargazers_count: 8
-          }
+      // console.log("Files ", results);
+      results.map(function(result) {
+        if (result.state !== "fulfilled") {
+          console.log("This file wasnt read", result);
+          return;
         }
-      };
-      options.measurementsList = ["abc"];
-      options.repositoriesList = ["repo1", "repo2"];
+        try {
+          var repo = new Repository(result.value);
+          if (!repo && !repo.name) {
+            console.log("This file wasn't a repo", result);
+            return;
+          }
+          options.data[options.startingRevision][repo.name] = repo;
+          options.repositoriesList.push(repo.name);
+        } catch (exception) {
+          console.log("There was a problem building this repository from file", exception.stack);
+        }
+      });
+      console.log("TODO checkout back to current branch HEAD");
       deferred.resolve(options);
-
     });
   });
   return deferred.promise;
@@ -50,7 +56,7 @@ var getBaseLineMeasurements = function(options) {
 var getRevisionsList = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
-    options.measurementsList = ["abc", "efg", "hij"];
+    options.measurementsList = [options.startingRevision, "efg", "hij"];
     deferred.resolve(options);
   });
   return deferred.promise;

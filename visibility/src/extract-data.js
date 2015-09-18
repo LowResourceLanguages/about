@@ -3,29 +3,46 @@ var Q = require("q");
 var shellPromise = require("./shellPromises").execute;
 var utils = require("./utils").utils;
 
+var LIMIT_RUN_SIZE = 3;
+
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
   utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
     options.filelist = filelist;
-    
-    options.data = {
-      abc: {
-        timestamp: 123,
-        "repo1": {
-          name: "repo1",
-          size: 678,
-          stargazers_count: 3
-        },
-        "repo2": {
-          name: "repo2",
-          size: 670,
-          stargazers_count: 8
-        }
+
+
+    var promises = [];
+    options.filelist.map(function(filename) {
+      if (!filename || promises.length >= LIMIT_RUN_SIZE) {
+        return;
       }
-    };
-    options.measurementsList = ["abc"];
-    options.repositoriesList = ["repo1", "repo2"];
-    deferred.resolve(options);
+      filename = options.resultsJsonDirname + "/" + filename;
+      promises.push(utils.readFile(filename));
+    });
+
+    console.log("waiting on " + promises.length + " results");
+    Q.allSettled(promises).then(function(results) {
+      console.log("Files ", results);
+      options.data = {
+        abc: {
+          timestamp: 123,
+          "repo1": {
+            name: "repo1",
+            size: 678,
+            stargazers_count: 3
+          },
+          "repo2": {
+            name: "repo2",
+            size: 670,
+            stargazers_count: 8
+          }
+        }
+      };
+      options.measurementsList = ["abc"];
+      options.repositoriesList = ["repo1", "repo2"];
+      deferred.resolve(options);
+
+    });
   });
   return deferred.promise;
 };
@@ -104,25 +121,6 @@ var pipeline = {
 };
 
 
-
-var processFile = function(timestamp, filepath) {
-  var deferred = Q.defer();
-
-  console.log("reading " + filepath);
-  fs.readAsync(filepath, function(error, repositoryJson) {
-    if (error) {
-      console.log(" couldn't read this file " + filepath);
-      deferred.reject(error);
-      return;
-    }
-    console.log(" found contents of " + repositoryJson);
-    data[timestamp] = repositoryJson;
-    deferred.resolve(filepath);
-  });
-
-  return deferred.promise;
-};
-
 var extractResultFromJsonAtRevision = function(revision) {
   console.log("Working on " + revision);
 
@@ -189,31 +187,5 @@ var prepareDataStructure = function(branchName) {
   return deferred.promise;
 };
 
-var extractData = function(dirname) {
-  var deferred = Q.defer();
-
-  Q.nextTick(function() {
-    var promises = [];
-    // console.log("There are these files ", filelist);
-    filelist.map(function(filename) {
-      if (promises.length > 3) {
-        return;
-      }
-      filename = dirname + "/" + filename;
-      console.log(" Working on " + filename);
-      var jsonPromise = processFile(0, filename);
-      promises.push(jsonPromise);
-
-      Q.allSettled(promises).then(function() {
-        deferred.resolve(data);
-      });
-
-      count++;
-    });
-
-  });
-  return deferred.promise;
-
-};
 
 exports.pipeline = pipeline;

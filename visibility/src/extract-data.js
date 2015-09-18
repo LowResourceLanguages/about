@@ -6,6 +6,24 @@ var fs = require("fs");
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
+
+    options.data = {
+      abc: {
+        timestamp: 123,
+        "repo1": {
+          name: "repo1",
+          size: 678,
+          stargazers_count: 3
+        },
+        "repo2": {
+          name: "repo2",
+          size: 670,
+          stargazers_count: 8
+        }
+      }
+    };
+    options.measurementsList = ["abc"];
+    options.repositoriesList = ["repo1", "repo2"];
     deferred.resolve(options);
   });
   return deferred.promise;
@@ -13,14 +31,43 @@ var getBaseLineMeasurements = function(options) {
 var getRevisionsList = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
+    options.measurementsList = ["abc", "efg", "hij"];
     deferred.resolve(options);
   });
   return deferred.promise;
 };
 var getDeltasBetweenMeasurements = function(options) {
   var deferred = Q.defer();
-
   Q.nextTick(function() {
+
+    options.data.efg = {
+      timestamp: 124,
+      "repo1": {
+        name: "repo1",
+        size: 678,
+        stargazers_count: 4
+      },
+      "repo2": {
+        name: "repo2",
+        size: 670,
+        stargazers_count: 8
+      }
+    };
+
+    options.data.hij = {
+      timestamp: 125,
+      "repo1": {
+        name: "repo1",
+        size: 678,
+        stargazers_count: 4
+      },
+      "repo2": {
+        name: "repo2",
+        size: 670,
+        stargazers_count: 8
+      }
+    };
+
     deferred.resolve(options);
   });
   return deferred.promise;
@@ -28,6 +75,17 @@ var getDeltasBetweenMeasurements = function(options) {
 var exportAsTable = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
+
+    options.table = [
+      ["date", "name", "size", "stargazers_count"],
+      [123, "repo1", 678, 3],
+      [123, "repo2", 670, 8],
+      [124, "repo1", 678, 4],
+      [124, "repo2", 670, 8],
+      [125, "repo1", 678, 4],
+      [125, "repo2", 670, 8],
+    ];
+
     deferred.resolve(options);
   });
   return deferred.promise;

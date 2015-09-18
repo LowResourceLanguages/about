@@ -15,7 +15,8 @@ describe("extract-data", function() {
         startingRevision: "3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4",
         attributesToExtract: ["name", "size", "stargazers_count", "watchers_count", "open_issues_count", "forks"],
         data: {},
-        measurements: 0
+        measurementsList: [],
+        repositoriesList: []
       };
 
       pipeline.getBaseLineMeasurements(repoStatsOverTime)
@@ -24,13 +25,22 @@ describe("extract-data", function() {
         .then(pipeline.exportAsTable)
         .then(function(result) {
           expect(result).toBe(repoStatsOverTime);
-          expect(result.measurements).toEqual(0);
+
+          expect(repoStatsOverTime.measurementsList.length).toEqual(3);
+          expect(repoStatsOverTime.repositoriesList.length).toEqual(2);
+
+          repoStatsOverTime.measurementsList.map(function(measurementId) {
+            expect(repoStatsOverTime.data[measurementId]).toBeDefined();
+          });
+
+          expect(repoStatsOverTime.table).toBeDefined();
+          expect(repoStatsOverTime.table.length).toEqual(repoStatsOverTime.measurementsList.length * repoStatsOverTime.repositoriesList.length + 1);
         })
         .catch(function(exception) {
           console.log(exception.stack);
           expect(false).toBeTruthy();
         })
-        .done(done)
+        .done(done);
     }, specIsRunningTooLong);
 
   });

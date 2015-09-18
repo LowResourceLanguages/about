@@ -38,7 +38,7 @@ var Repository = function(options) {
             if (!attribute || self[attribute]) {
               return;
             }
-            console.log("Looking for " + attribute);
+            // console.log("Looking for " + attribute);
             // Expects a properly formated json string with quotes around the properties
             var quotedAttribute = "\"" + attribute + "\": ";
             if (line && line.indexOf(quotedAttribute) > -1) {
@@ -48,7 +48,7 @@ var Repository = function(options) {
                 self[attribute] = self[attribute].replace(/^"/, "").replace(/"$/, "");
               }
               attributesToExtract.splice(attributesToExtract.indexOf(attribute), 1);
-              console.log("found, now looking for ", attributesToExtract);
+              // console.log("found, now looking for ", attributesToExtract);
             }
           });
         } catch (exception) {
@@ -59,23 +59,25 @@ var Repository = function(options) {
     } catch (exception) {
       console.log(exception.stack);
     }
-  } else if (options && typeof options.indexOf === "function" && options.indexOf("{") === 0) {
-    console.log("Constructing from json ");
-    try {
-
-      options = JSON.parse(options);
-      for (var member in options) {
-        if (!options.hasOwnProperty(member)) {
-          continue;
-        }
-        this[member] = options[member];
+  } else if (options) {
+    if (typeof options.indexOf === "function" && options.indexOf("{") === 0) {
+      console.log("Constructing from stringified json ");
+      try {
+        options = JSON.parse(options);
+      } catch (exception) {
+        console.log("There was a problem parsing the repository json", exception.stack);
       }
-
-    } catch (exception) {
-      console.log("There was a problem parsing the repository json", exception.stack);
+    } else {
+      console.log("Constructing from options ");
+    }
+    for (var member in options) {
+      if (!options.hasOwnProperty(member)) {
+        continue;
+      }
+      this[member] = options[member];
     }
   } else {
-    console.log("Constructing from unknown options", options);
+    console.log("Constructing without options");
   }
   Object.apply(this, arguments);
 };
@@ -92,6 +94,20 @@ Repository.prototype = Object.create(Object.prototype, {
     },
     set: function(value) {
       this._attributesToExtract = value;
+    }
+  },
+
+  exportAsCSV: {
+    value: function(optionalAttributes) {
+      var asCSV = [];
+      var self = this;
+      optionalAttributes = optionalAttributes || this.attributesToExtract;
+
+      optionalAttributes.map(function(attribute) {
+        // console.log("looking for " + attribute, self[attribute]);
+        asCSV.push(self[attribute] ? self[attribute] : "");
+      });
+      return asCSV;
     }
   }
 });

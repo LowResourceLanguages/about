@@ -1,12 +1,13 @@
-var shellPromise = require("./shellPromises").execute;
 var Q = require("q");
-var fs = require("fs");
 
+var shellPromise = require("./shellPromises").execute;
+var utils = require("./utils").utils;
 
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
-  Q.nextTick(function() {
-
+  utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
+    options.filelist = filelist;
+    
     options.data = {
       abc: {
         timestamp: 123,
@@ -28,6 +29,7 @@ var getBaseLineMeasurements = function(options) {
   });
   return deferred.promise;
 };
+
 var getRevisionsList = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
@@ -36,6 +38,7 @@ var getRevisionsList = function(options) {
   });
   return deferred.promise;
 };
+
 var getDeltasBetweenMeasurements = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
@@ -72,6 +75,7 @@ var getDeltasBetweenMeasurements = function(options) {
   });
   return deferred.promise;
 };
+
 var exportAsTable = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
@@ -188,11 +192,7 @@ var prepareDataStructure = function(branchName) {
 var extractData = function(dirname) {
   var deferred = Q.defer();
 
-  fs.readdir(dirname, function(error, filelist) {
-    if (error || !filelist) {
-      deferred.reject(error);
-      return;
-    }
+  Q.nextTick(function() {
     var promises = [];
     // console.log("There are these files ", filelist);
     filelist.map(function(filename) {

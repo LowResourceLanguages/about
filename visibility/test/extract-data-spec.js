@@ -12,6 +12,7 @@ describe("extract-data", function() {
     it("should use the diff rather than checking out full revision", function(done) {
       var repoStatsOverTime = {
         branchName: "experiment/improving-visibility",
+        resultsJsonDirname: "results",
         startingRevision: "3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4",
         attributesToExtract: ["name", "size", "stargazers_count", "watchers_count", "open_issues_count", "forks"],
         data: {},
@@ -25,6 +26,8 @@ describe("extract-data", function() {
         .then(pipeline.exportAsTable)
         .then(function(result) {
           expect(result).toBe(repoStatsOverTime);
+
+          expect(repoStatsOverTime.filelist.length).toEqual(166);
 
           expect(repoStatsOverTime.measurementsList.length).toEqual(3);
           expect(repoStatsOverTime.repositoriesList.length).toEqual(2);

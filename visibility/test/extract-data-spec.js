@@ -13,7 +13,8 @@ describe("extract-data", function() {
       var repoStatsOverTime = {
         branchName: "experiment/improving-visibility",
         resultsJsonDirname: "results",
-        startingRevision: "3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4",
+        startingRevision: "fed94873566aacbcad628b27d669cb648da1e5f8",
+        endingRevision: "d5b4c04a891f7314962d3e8899083c541558a8c7",
         attributesToExtract: ["name", "size", "stargazers_count", "watchers_count", "open_issues_count", "forks"],
         data: {},
         measurementsList: [],
@@ -29,12 +30,12 @@ describe("extract-data", function() {
 
           expect(repoStatsOverTime.filelist.length).toEqual(166);
 
-          expect(repoStatsOverTime.measurementsList.length).toEqual(3);
+          expect(repoStatsOverTime.measurementsList.length).toEqual(48);
           expect(repoStatsOverTime.repositoriesList.length).toEqual(2);
 
-          expect(repoStatsOverTime.data["3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4"]["AuToBI"].exportAsCSV())
+          expect(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]["AuToBI"].exportAsCSV())
             .toEqual(['AuToBI', 20071, 12, 12, '', 8]);
-          expect(repoStatsOverTime.data["3c5b5e5f6f0faac1fe3d04ed3158acc92a9b1cd4"]["BloomDesktop"].exportAsCSV())
+          expect(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]["BloomDesktop"].exportAsCSV())
             .toEqual(['BloomDesktop', 73499, 6, 6, 4, 12]);
 
           expect(repoStatsOverTime.table).toBeDefined();

@@ -25,7 +25,6 @@ var getBaseLineMeasurements = function(options) {
     console.log("waiting on " + promises.length + " results");
     options.data = options.data || {};
     options.data[options.startingRevision] = options.data[options.startingRevision] || {};
-    options.measurementsList = [options.startingRevision];
     options.repositoriesList = [];
     Q.allSettled(promises).then(function(results) {
       // console.log("Files ", results);
@@ -55,8 +54,35 @@ var getBaseLineMeasurements = function(options) {
 
 var getRevisionsList = function(options) {
   var deferred = Q.defer();
-  Q.nextTick(function() {
-    options.measurementsList = [options.startingRevision, "efg", "hij"];
+
+  shellPromise("git rev-list " + options.branchName).then(function(results) {
+    if (!results) {
+      deferred.resolve(options);
+      return;
+    }
+    results = results.trim().split("\n");
+    console.log("Here are the revisions in the repository " + results.length);
+
+    var foundFirstRevision = false;
+    var foundLastRevision = false;
+    options.measurementsList = [];
+    for (var i = results.length - 1; i >= 0; i--) {
+      var revision = results[i];
+      if (revision === options.startingRevision) {
+        console.log("Found first revision " + revision)
+        foundFirstRevision = true;
+      } else if (revision === options.endingRevision) {
+        console.log("Found last revision " + revision)
+        foundLastRevision = true;
+      }
+      // console.log("Looking at " + revision)
+      if (foundFirstRevision && !foundLastRevision && revision) {
+        options.measurementsList.push(revision);
+      } else {
+        console.log("Found first: " + foundFirstRevision + ", found last: " + foundLastRevision + " revision: " + revision);
+      }
+    };
+    console.log("Here are the relevant revisions ", options.measurementsList.length);
     deferred.resolve(options);
   });
   return deferred.promise;
@@ -153,45 +179,5 @@ var extractResultFromJsonAtRevision = function(revision) {
   });
   return timestampPromise;
 };
-
-var prepareDataStructure = function(branchName) {
-  var deferred = Q.defer();
-
-  var findGitRevisisons = "git rev-list " + branchName;
-  shellPromise(findGitRevisisons).then(function(results) {
-    console.log("Here are the revisions in the repository " + results);
-    if (!results) {
-      deferred.resolve(data);
-      return;
-    }
-    results = results.trim().split("\n");
-    var stillProcessing = true;
-    var promises = [];
-
-    results.map(function(revision) {
-      if (revision === oldestRelevantRevision) {
-        stillProcessing = false;
-      }
-      if (stillProcessing && revision) {
-        promises.push(extractResultFromJsonAtRevision(revision));
-      }
-    });
-
-    console.log("waiting on " + promises.length + " results");
-    Q.allSettled(promises).then(function(promiseResults) {
-      deferred.resolve(data);
-    });
-
-  }, function(reason) {
-    console.log(reason);
-    deferred.reject(reason);
-  }).fail(function(exception) {
-    console.log(exception);
-    deferred.reject(exception);
-  });
-
-  return deferred.promise;
-};
-
 
 exports.pipeline = pipeline;

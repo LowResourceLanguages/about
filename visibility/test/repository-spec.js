@@ -139,5 +139,29 @@ describe("repository", function() {
 
   });
 
+  describe("update from diff", function() {
+
+    it("should clone empty fields", function() {
+      var repo = new Repository({
+        name: 'FieldWorks',
+        size: '976211',
+        stargazers_count: '11',
+        watchers_count: '11',
+        open_issues_count: '0',
+        forks: '3'
+      });
+      expect(repo).toBeDefined();
+      repo.updateFromDiff("   \"homepage\": \"http://bloomlibrary.org/\",\n-  \"size\": 73634,\n+  \"size\": 74210,\n   \"stargazers_count\": 6,\n");
+
+      expect(repo.name).toEqual("FieldWorks");
+      expect(repo.forks + "").toEqual("3");
+      expect(repo.size + "").toEqual("74210");
+      expect(repo.stargazers_count + "").toEqual("11");
+      expect(repo.watchers_count + "").toEqual("11");
+      expect(repo.open_issues_count + "").toEqual("0");
+    });
+
+  });
+
 
 });

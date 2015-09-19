@@ -32,28 +32,7 @@ var Repository = function(options) {
         if (!line) {
           return;
         }
-        try {
-          attributesToExtract.map(function(attribute) {
-            // skip if the attribute is already set
-            if (!attribute || self[attribute]) {
-              return;
-            }
-            // console.log("Looking for " + attribute);
-            // Expects a properly formated json string with quotes around the properties
-            var quotedAttribute = "\"" + attribute + "\": ";
-            if (line && line.indexOf(quotedAttribute) > -1) {
-              self[attribute] = line.substring(line.lastIndexOf(quotedAttribute) + quotedAttribute.length);
-              self[attribute] = self[attribute].replace(/,$/, "");
-              if (self[attribute][0] === "\"" && self[attribute][self[attribute].length - 1] === "\"") {
-                self[attribute] = self[attribute].replace(/^"/, "").replace(/"$/, "");
-              }
-              attributesToExtract.splice(attributesToExtract.indexOf(attribute), 1);
-              // console.log("found, now looking for ", attributesToExtract);
-            }
-          });
-        } catch (exception) {
-          console.log("There was a problem parsing this line", exception.stack);
-        }
+        self.setAttributeFromLine(line);
       });
 
     } catch (exception) {
@@ -94,6 +73,49 @@ Repository.prototype = Object.create(Object.prototype, {
     },
     set: function(value) {
       this._attributesToExtract = value;
+    }
+  },
+
+  setAttributeFromLine: {
+    value: function(line) {
+      var self = this;
+      // console.log(" looking at " + line)
+      try {
+        self.attributesToExtract.map(function(attribute) {
+          // skip if the attribute is already set
+          if (!attribute) {
+            return;
+          }
+          // console.log("Looking for " + attribute);
+          // Expects a properly formated json string with quotes around the properties
+          var quotedAttribute = "\"" + attribute + "\": ";
+          if (line && line.indexOf(quotedAttribute) > -1) {
+            self[attribute] = line.substring(line.lastIndexOf(quotedAttribute) + quotedAttribute.length);
+            self[attribute] = self[attribute].replace(/,$/, "");
+            if (self[attribute][0] === "\"" && self[attribute][self[attribute].length - 1] === "\"") {
+              self[attribute] = self[attribute].replace(/^"/, "").replace(/"$/, "");
+            }
+            self.attributesToExtract.splice(self.attributesToExtract.indexOf(attribute), 1);
+            // console.log("found, now looking for ", self.attributesToExtract);
+          }
+        });
+      } catch (exception) {
+        console.log("There was a problem parsing this line", exception.stack);
+      }
+    }
+  },
+
+  updateFromDiff: {
+    value: function(diff) {
+      // console.log("Working on this diff", diff);
+      var self = this;
+      var lines = diff.split(/\n/);
+      lines.map(function(line) {
+        if (line[0] === "+") {
+          console.log("This line is a change" + line);
+          self.setAttributeFromLine(line);
+        }
+      });
     }
   },
 

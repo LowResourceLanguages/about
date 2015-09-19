@@ -67,6 +67,9 @@ var getRevisionsList = function(options) {
     var foundLastRevision = false;
     options.measurementsList = [];
     for (var i = results.length - 1; i >= 0; i--) {
+      if (options.measurementsList.length > LIMIT_RUN_SIZE) {
+        continue;
+      }
       var revision = results[i];
       if (revision === options.startingRevision) {
         // console.log("Found first revision " + revision)
@@ -107,11 +110,44 @@ var getDeltasBetweenMeasurements = function(options) {
         continue;
       }
       options.data[options.measurementsList[i]][repoName] = previousRepo.clone();
+
+      var diffPromise = shellPromise("git show --format=%H:%at " + options.measurementsList[i]);
+      promises.push(diffPromise);
+
     }
     options.data[options.measurementsList[i]].timestamp = 123456778;
   }
-  Q.allSettled(promises).then(function() {
+  Q.allSettled(promises).then(function(results) {
+    // console.log("diff results ", results);
+    results.map(function(result) {
+      if (!result || result.state !== "fulfilled") {
+        return;
+      }
+      var lines = result.value.split(/\n/);
+      var pieces = lines[0].split(":");
+      var revision = pieces[0];
+      var timestamp = pieces[1];
+      // Chunk diffs by file
+      var diffsByRepo = result.value.split("diff --git a/visibility/results/");
+      diffsByRepo.map(function(diffSet) {
+        lines = diffSet.split("\n");
 
+        // Identify which repo to update
+        var repo = lines[0].substring(lines[0].lastIndexOf("___") + 3);
+        if (repo.indexOf(".json") === -1) {
+          return;
+        }
+        repo = repo.substring(0, repo.length - 5);
+
+        console.log(" found diff for " + repo, options.data[revision][repo]);
+        options.data[revision][repo] = options.data[revision][repo] || new Repository({
+          name: repo
+        }); // TODO because we are only starting with 2
+        options.data[revision][repo].timestamp = timestamp;
+        options.data[revision][repo].updateFromDiff(diffSet);
+        console.log(" repo is now", options.data[revision][repo]);
+      });
+    });
     deferred.resolve(options);
   });
   return deferred.promise;
@@ -133,7 +169,9 @@ var exportAsTable = function(options) {
         if (!options.data[revision].hasOwnProperty(repoName) || repoName === "timestamp") {
           continue;
         }
-        options.table.push(options.data[revision][repoName].exportAsCSV(options.attributesToExtract));
+        var asCsv = options.data[revision][repoName].exportAsCSV(options.attributesToExtract);
+        asCsv.unshift(options.data[revision].timestamp);
+        options.table.push(asCsv);
       }
     });
 

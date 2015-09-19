@@ -82,7 +82,7 @@ var getRevisionsList = function(options) {
         // console.log("Found last revision " + revision)
         foundLastRevision = true;
       }
-    };
+    }
     console.log("Here are the relevant revisions ", options.measurementsList.length);
     deferred.resolve(options);
   });
@@ -93,24 +93,22 @@ var getDeltasBetweenMeasurements = function(options) {
   var deferred = Q.defer();
 
   var promises = [];
+
+  // TODO get the timestamp for the first measurement
+  options.data[options.measurementsList[0]].timestamp = 123456778;
+
   for (var i = 1; i < options.measurementsList.length; i++) {
     // Base this measurement on the previous
-    options.data[options.measurementsList[i]] = JSON.parse(JSON.stringify(options.data[options.measurementsList[i - 1]]));
-
-    // options.data.efg = {
-    //   timestamp: 124,
-    //   "repo1": {
-    //     name: "repo1",
-    //     size: 678,
-    //     stargazers_count: 4
-    //   },
-    //   "repo2": {
-    //     name: "repo2",
-    //     size: 670,
-    //     stargazers_count: 8
-    //   }
-    // };
-
+    options.data[options.measurementsList[i]] = {};
+    for (var repoName in options.data[options.measurementsList[i - 1]]) {
+      var previousRepo = options.data[options.measurementsList[i - 1]][repoName];
+      if (!previousRepo || previousRepo === "timestamp" || typeof previousRepo.clone !== "function") {
+        // console.log("This is an abnormal repo", previousRepo);
+        continue;
+      }
+      options.data[options.measurementsList[i]][repoName] = previousRepo.clone();
+    }
+    options.data[options.measurementsList[i]].timestamp = 123456778;
   }
   Q.allSettled(promises).then(function() {
 
@@ -123,15 +121,21 @@ var exportAsTable = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
 
-    options.table = [
-      ["date", "name", "size", "stargazers_count"],
-      [123, "repo1", 678, 3],
-      [123, "repo2", 670, 8],
-      [124, "repo1", 678, 4],
-      [124, "repo2", 670, 8],
-      [125, "repo1", 678, 4],
-      [125, "repo2", 670, 8],
-    ];
+    // prepare the header
+    options.table = [options.attributesToExtract];
+    options.table[0].unshift("date");
+
+    // For each measurement
+    options.measurementsList.map(function(revision) {
+
+      // Extract stats for each repo
+      for (var repoName in options.data[revision]) {
+        if (!options.data[revision].hasOwnProperty(repoName) || repoName === "timestamp") {
+          continue;
+        }
+        options.table.push(options.data[revision][repoName].exportAsCSV(options.attributesToExtract));
+      }
+    });
 
     deferred.resolve(options);
   });

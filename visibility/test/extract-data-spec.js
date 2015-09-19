@@ -89,10 +89,11 @@ describe("extract-data", function() {
           expect(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]["BloomDesktop"].exportAsCSV())
             .toEqual(["BloomDesktop", 73499, 6, 6, 4, 12]);
 
-          expect(repoStatsOverTime.data["d5b4c04a891f7314962d3e8899083c541558a8c7"]).toEqual(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]);
           expect(repoStatsOverTime.data["d5b4c04a891f7314962d3e8899083c541558a8c7"]).not.toBe(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]);
 
           expect(repoStatsOverTime.table).toBeDefined();
+          expect(repoStatsOverTime.table[0]).toEqual([ 'date', 'name', 'size', 'stargazers_count', 'watchers_count', 'open_issues_count', 'forks' ]);
+          expect(repoStatsOverTime.table).toEqual(" ");
           expect(repoStatsOverTime.table.length).toEqual(repoStatsOverTime.measurementsList.length * repoStatsOverTime.repositoriesList.length + 1);
         })
         .catch(function(exception) {

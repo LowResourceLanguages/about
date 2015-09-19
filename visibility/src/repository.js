@@ -68,7 +68,7 @@ var Repository = function(options) {
         console.log("There was a problem parsing the repository json", exception.stack);
       }
     } else {
-      console.log("Constructing from options ");
+      // console.log("Constructing from options ");
     }
     for (var member in options) {
       if (!options.hasOwnProperty(member) || this.attributesToExtract.indexOf(member) === -1) {

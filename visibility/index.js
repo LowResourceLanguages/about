@@ -20,9 +20,9 @@ pipeline.getBaseLineMeasurements(repoStatsOverTime)
     console.log("Done");
 
     // console.log(repoStatsOverTime.table.join("\n"));
-    fs.writeFile("results.csv", repoStatsOverTime.table.join("\n"), function(error) {
+    fs.writeFile("longitudinal_visibility.csv", repoStatsOverTime.table.join("\n"), function(error) {
       if (!error) {
-        console.log("Saved results in longitudinal_visibility.csv", error);
+        console.log("Saved results in longitudinal_visibility.csv");
       } else {
         console.log("Unable to save results", error);
       }

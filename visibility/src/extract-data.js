@@ -4,7 +4,7 @@ var Repository = require("./repository").Repository;
 var shellPromise = require("./shellPromises").execute;
 var utils = require("./utils").utils;
 
-var LIMIT_RUN_SIZE = 100;
+var LIMIT_RUN_SIZE = 100000;
 
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
@@ -121,11 +121,9 @@ var getDeltasBetweenMeasurements = function(options) {
         continue;
       }
       options.data[options.measurementsList[i]][repoName] = previousRepo.clone();
-
-      diffPromise = shellPromise("git show --format=%H:%at " + options.measurementsList[i]);
-      promises.push(diffPromise);
-
     }
+    diffPromise = shellPromise("git show --format=%H:%at " + options.measurementsList[i]);
+    promises.push(diffPromise);
   }
   Q.allSettled(promises).then(function(results) {
     // console.log("diff results ", results);
@@ -154,12 +152,12 @@ var getDeltasBetweenMeasurements = function(options) {
         }
         repo = repo.substring(0, repo.length - 5);
 
-        console.log(" found diff for " + repo, options.data[revision][repo]);
+        // console.log(" found diff for " + repo, options.data[revision][repo]);
         options.data[revision][repo] = options.data[revision][repo] || new Repository({
           name: repo
         }); // TODO because we are only starting with 2
         options.data[revision][repo].updateFromDiff(diffSet);
-        console.log(" repo is now", options.data[revision][repo]);
+        // console.log(" repo is now", options.data[revision][repo]);
       });
     });
     deferred.resolve(options);

@@ -60,14 +60,14 @@ var Repository = function(options) {
   }
   Object.apply(this, arguments);
 };
-
+Repository.DEFAULT_ATTRIBUTES_TO_EXTRACT = ["name", "size", "stargazers_count"];
 Repository.prototype = Object.create(Object.prototype, {
   constructor: Repository,
 
   attributesToExtract: {
     get: function() {
       if (!this._attributesToExtract) {
-        return ["name", "size", "stargazers_count", "watchers_count", "open_issues_count", "forks"];
+        return Repository.DEFAULT_ATTRIBUTES_TO_EXTRACT.concat([]);
       }
       return this._attributesToExtract;
     },

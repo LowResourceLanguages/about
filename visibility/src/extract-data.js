@@ -8,10 +8,12 @@ var LIMIT_RUN_SIZE = 100000;
 
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
+  if (options && options.attributesToExtract) {
+    Repository.DEFAULT_ATTRIBUTES_TO_EXTRACT = options.attributesToExtract;
+  }
 
   console.log("checkout starting revision");
   shellPromise("git checkout " + options.startingRevision).then(function() {
-    // shellPromise("git checkout experiment/improving-visibility_extract").then(function() {
 
     utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
       options.filelist = filelist;
@@ -49,7 +51,7 @@ var getBaseLineMeasurements = function(options) {
           }
         });
         console.log("Checkout back to current branch HEAD");
-        shellPromise("git checkout experiment/improving-visibility_extract").then(function() {
+        shellPromise("git checkout experiment/improving-visibility_scripts").then(function() {
           deferred.resolve(options);
         });
 

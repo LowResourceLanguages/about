@@ -27,11 +27,8 @@ describe("repository", function() {
       });
       expect(repo).toBeDefined();
       expect(repo.name).toEqual("FieldWorks");
-      expect(repo.forks + "").toEqual("3");
       expect(repo.size + "").toEqual("976211");
       expect(repo.stargazers_count + "").toEqual("11");
-      expect(repo.watchers_count + "").toEqual("11");
-      expect(repo.open_issues_count + "").toEqual("0");
     });
 
     it("should be fillable via a file stream", function(done) {
@@ -41,11 +38,8 @@ describe("repository", function() {
       expect(repo.whenFilled).toBeDefined();
       repo.whenFilled.then(function() {
         expect(repo.name).toEqual("FieldWorks");
-        expect(repo.forks + "").toEqual("3");
-        expect(repo.size + "").toEqual("976211");
+        expect(repo.size + "").toEqual("974774");
         expect(repo.stargazers_count + "").toEqual("11");
-        expect(repo.watchers_count + "").toEqual("11");
-        expect(repo.open_issues_count + "").toEqual("0");
       }).done(done);
     }, specIsRunningTooLong);
 
@@ -59,11 +53,8 @@ describe("repository", function() {
         var repo = new Repository(filecontents);
         expect(repo).toBeDefined();
         expect(repo.name).toEqual("FieldWorks");
-        expect(repo.forks + "").toEqual("3");
-        expect(repo.size + "").toEqual("976211");
+        expect(repo.size + "").toEqual("974774");
         expect(repo.stargazers_count + "").toEqual("11");
-        expect(repo.watchers_count + "").toEqual("11");
-        expect(repo.open_issues_count + "").toEqual("0");
         done();
       });
     }, specIsRunningTooLong);
@@ -78,7 +69,7 @@ describe("repository", function() {
       expect(repo).toBeDefined();
 
       var asCSV = repo.exportAsCSV();
-      expect(asCSV).toEqual(['', '', '', '', '', '']);
+      expect(asCSV).toEqual(['', '', '']);
     });
 
     it("should accept a custom header", function() {
@@ -101,13 +92,10 @@ describe("repository", function() {
       expect(repo).toBeDefined();
 
       expect(repo.name).toEqual("FieldWorks");
-      expect(repo.forks + "").toEqual("3");
       expect(repo.size + "").toEqual("976211");
       expect(repo.stargazers_count + "").toEqual("11");
-      expect(repo.watchers_count + "").toEqual("11");
-      expect(repo.open_issues_count + "").toEqual("0");
       var asCSV = repo.exportAsCSV();
-      expect(asCSV).toEqual(['FieldWorks', '976211', '11', '11', '0', '3']);
+      expect(asCSV).toEqual(['FieldWorks', '976211', '11']);
     });
 
   });
@@ -151,14 +139,12 @@ describe("repository", function() {
         forks: '3'
       });
       expect(repo).toBeDefined();
-      repo.updateFromDiff("   \"homepage\": \"http://bloomlibrary.org/\",\n-  \"size\": 73634,\n+  \"size\": 74210,\n   \"stargazers_count\": 6,\n");
+      expect(repo.size + "").toEqual("976211");
+      repo.updateFromDiff("-  \"size\": 73634,\n+  \"size\": 74210,\n");
 
       expect(repo.name).toEqual("FieldWorks");
-      expect(repo.forks + "").toEqual("3");
       expect(repo.size + "").toEqual("74210");
       expect(repo.stargazers_count + "").toEqual("11");
-      expect(repo.watchers_count + "").toEqual("11");
-      expect(repo.open_issues_count + "").toEqual("0");
     });
 
   });

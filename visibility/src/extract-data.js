@@ -117,12 +117,16 @@ var getDeltasBetweenMeasurements = function(options) {
     // Base this measurement on the previous
     options.data[options.measurementsList[i]] = {};
     for (var repoName in options.data[options.measurementsList[i - 1]]) {
-      var previousRepo = options.data[options.measurementsList[i - 1]][repoName];
-      if (!previousRepo || previousRepo === "timestamp" || typeof previousRepo.clone !== "function") {
-        // console.log("This is an abnormal repo", previousRepo);
+      var repoAtPreviousMeasurement = options.data[options.measurementsList[i - 1]][repoName];
+      if (!repoAtPreviousMeasurement || repoAtPreviousMeasurement === "timestamp") {
+        // console.log("This is an abnormal repo", repoAtPreviousMeasurement);
         continue;
       }
-      options.data[options.measurementsList[i]][repoName] = previousRepo.clone();
+      options.data[options.measurementsList[i]][repoName] = {
+        repoAtPreviousMeasurement: repoAtPreviousMeasurement
+      };
+      // options.data[options.measurementsList[i]][repoName] = repoAtPreviousMeasurement.clone();
+      // options.data[options.measurementsList[i]][repoName].repoAtPreviousMeasurement = repoAtPreviousMeasurement;
     }
     diffPromise = shellPromise("git show --format=%H:%at " + options.measurementsList[i]);
     promises.push(diffPromise);
@@ -145,21 +149,25 @@ var getDeltasBetweenMeasurements = function(options) {
       // Chunk diffs by file
       var diffsByRepo = result.value.split("diff --git a/visibility/results/");
       diffsByRepo.map(function(diffSet) {
-        lines = diffSet.split("\n");
+        try {
+          lines = diffSet.split("\n");
 
-        // Identify which repo to update
-        var repo = lines[0].substring(lines[0].lastIndexOf("___") + 3);
-        if (repo.indexOf(".json") === -1) {
-          return;
+          // Identify which repo to update
+          var repoName = lines[0].substring(lines[0].lastIndexOf("___") + 3);
+          if (repoName.indexOf(".json") === -1) {
+            return;
+          }
+          repoName = repoName.substring(0, repoName.length - 5);
+
+          // console.log(" found diff for " + repoName, options.data[revision][repoName]);
+          if (!options.data[revision][repoName].exportAsCSV) {
+            options.data[revision][repoName] = Repository.fillFromLastKnownMeasurement(options.data[revision][repoName].repoAtPreviousMeasurement);
+          }
+          options.data[revision][repoName].updateFromDiff(diffSet);
+        } catch (exception) {
+          console.log("There was a problem finding a previous version of this repo before this diff", exception.stack);
+          // console.log(" repo is now", options.data[revision][repoName]);
         }
-        repo = repo.substring(0, repo.length - 5);
-
-        // console.log(" found diff for " + repo, options.data[revision][repo]);
-        options.data[revision][repo] = options.data[revision][repo] || new Repository({
-          name: repo
-        }); // TODO because we are only starting with 2
-        options.data[revision][repo].updateFromDiff(diffSet);
-        // console.log(" repo is now", options.data[revision][repo]);
       });
     });
     deferred.resolve(options);
@@ -182,6 +190,10 @@ var exportAsTable = function(options) {
       for (var repoName in options.data[revision]) {
         if (!options.data[revision].hasOwnProperty(repoName) || repoName === "timestamp") {
           continue;
+        }
+        if (!options.data[revision][repoName].exportAsCSV) {
+          // console.log("this repository might have never been updated", options.data[revision][repoName]);
+          options.data[revision][repoName] = Repository.fillFromLastKnownMeasurement(options.data[revision][repoName].repoAtPreviousMeasurement);
         }
         var asCsv = options.data[revision][repoName].exportAsCSV(options.attributesToExtract);
         var date = new Date(options.data[revision].timestamp);

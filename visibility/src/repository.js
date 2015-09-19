@@ -61,6 +61,20 @@ var Repository = function(options) {
   Object.apply(this, arguments);
 };
 Repository.DEFAULT_ATTRIBUTES_TO_EXTRACT = ["name", "size", "stargazers_count"];
+
+Repository.fillFromLastKnownMeasurement = function(repoAtPreviousMeasurement) {
+  if (repoAtPreviousMeasurement.exportAsCSV) {
+    // console.log(".... done");
+    return new Repository(repoAtPreviousMeasurement);
+  }
+  if (repoAtPreviousMeasurement.repoAtPreviousMeasurement) {
+    // console.log("recursing ...", repoAtPreviousMeasurement.repoAtPreviousMeasurement);
+    return Repository.fillFromLastKnownMeasurement(repoAtPreviousMeasurement.repoAtPreviousMeasurement);
+  }
+  console.log("This shouldn't happen, your repoAtPreviousMeasurement was not a Repository, nor did it have a repoAtPreviousMeasurement itself.");
+  return new Repository();
+};
+
 Repository.prototype = Object.create(Object.prototype, {
   constructor: Repository,
 

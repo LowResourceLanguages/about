@@ -21,10 +21,15 @@ describe("extract-data", function() {
         repositoriesList: []
       };
 
+      var generalPurposeCatchFunction = function(error) {
+        console.log(" there was an error", error, error.stack);
+        expect(false).toBeTruthy();
+      };
+
       pipeline.getBaseLineMeasurements(repoStatsOverTime)
-        .then(pipeline.getRevisionsList)
-        .then(pipeline.getDeltasBetweenMeasurements)
-        .then(pipeline.exportAsTable)
+        .then(pipeline.getRevisionsList, generalPurposeCatchFunction)
+        .then(pipeline.getDeltasBetweenMeasurements, generalPurposeCatchFunction)
+        .then(pipeline.exportAsTable, generalPurposeCatchFunction)
         .then(function(result) {
           expect(result).toBe(repoStatsOverTime);
 
@@ -61,7 +66,7 @@ describe("extract-data", function() {
           expect(repoStatsOverTime.table.length).toEqual(repoStatsOverTime.measurementsList.length * repoStatsOverTime.repositoriesList.length + 1);
         })
         .catch(function(exception) {
-          console.log(exception.stack);
+          console.log(" there was an exception", exception.stack);
           expect(false).toBeTruthy();
         })
         .done(done);

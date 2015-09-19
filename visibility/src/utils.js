@@ -19,7 +19,7 @@ var getFileList = function(dirname) {
 var readFile = function(filepath) {
   var deferred = Q.defer();
 
-  console.log("reading " + filepath);
+  // console.log("reading " + filepath);
   fs.readFile(filepath, "utf8", function(error, repositoryJson) {
     if (error || !repositoryJson) {
       console.log(" couldn't read this file " + filepath);

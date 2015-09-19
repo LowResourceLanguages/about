@@ -5,6 +5,10 @@ var specIsRunningTooLong = 5000;
 
 describe("repository", function() {
 
+  beforeEach(function() {
+    Repository.DEFAULT_ATTRIBUTES_TO_EXTRACT = ["name", "size", "stargazers_count"];
+  });
+
   it("should load", function() {
     expect(Repository).toBeDefined();
   });
@@ -149,5 +153,110 @@ describe("repository", function() {
 
   });
 
+
+  describe("fill from a previous measurement", function() {
+
+    it("should recurse until a measurement is found", function() {
+      var baseline = new Repository({
+        name: 'FieldWorks',
+        size: '976211',
+        stargazers_count: '11',
+        watchers_count: '11',
+        open_issues_count: '0',
+        forks: '3'
+      });
+      var measurementTwo = {
+        repoAtPreviousMeasurement: baseline
+      };
+      var measurementThree = {
+        repoAtPreviousMeasurement: measurementTwo
+      };
+      var measurementFour = {
+        repoAtPreviousMeasurement: measurementThree
+      };
+      measurementFour = Repository.fillFromLastKnownMeasurement(measurementFour.repoAtPreviousMeasurement);
+      expect(measurementFour).toBeDefined();
+
+      expect(baseline).toEqual({
+        name: "FieldWorks",
+        size: "976211",
+        stargazers_count: "11"
+      });
+      expect(measurementTwo).toEqual({
+        repoAtPreviousMeasurement: {
+          name: "FieldWorks",
+          size: "976211",
+          stargazers_count: "11"
+        }
+      });
+      expect(measurementThree).toEqual({
+        repoAtPreviousMeasurement: {
+          repoAtPreviousMeasurement: {
+            name: "FieldWorks",
+            size: "976211",
+            stargazers_count: "11"
+          }
+        }
+      });
+      expect(measurementFour).toEqual({
+        name: "FieldWorks",
+        size: "976211",
+        stargazers_count: "11"
+      });
+
+      measurementFour.updateFromDiff("-  \"size\": 73634,\n+  \"size\": 74210,\n");
+      expect(baseline.size + "").toEqual("976211");
+      expect(measurementFour.size + "").toEqual("74210");
+    });
+
+    it("should stop if no previous measurement is found", function() {
+      var baseline = new Repository();
+      var measurementTwo = {
+        repoAtPreviousMeasurement: baseline
+      };
+      var measurementThree = {
+        repoAtPreviousMeasurement: measurementTwo
+      };
+      var measurementFour = {
+        repoAtPreviousMeasurement: measurementThree
+      };
+      expect(baseline).toEqual({});
+      expect(measurementTwo).toEqual({
+        repoAtPreviousMeasurement: {}
+      });
+      expect(measurementThree).toEqual({
+        repoAtPreviousMeasurement: {
+          repoAtPreviousMeasurement: {}
+        }
+      });
+      expect(measurementFour).toEqual({
+        repoAtPreviousMeasurement: {
+          repoAtPreviousMeasurement: {
+            repoAtPreviousMeasurement: {}
+          }
+        }
+      });
+
+      measurementFour = Repository.fillFromLastKnownMeasurement(measurementFour.repoAtPreviousMeasurement);
+
+      expect(baseline).toEqual({});
+      expect(measurementTwo).toEqual({
+        repoAtPreviousMeasurement: {}
+      });
+      expect(measurementThree).toEqual({
+        repoAtPreviousMeasurement: {
+          repoAtPreviousMeasurement: {}
+        }
+      });
+      expect(measurementFour).toEqual({});
+
+      expect(measurementFour).toBeDefined();
+      expect(measurementFour.size).toBeUndefined();
+      measurementFour.updateFromDiff("-  \"size\": 73634,\n+  \"size\": 74210,\n");
+      expect(measurementFour.size + "").toEqual("74210");
+    });
+
+
+  });
 
 });

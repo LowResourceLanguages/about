@@ -40,7 +40,7 @@ var Repository = function(options) {
     }
   } else if (options) {
     if (typeof options.indexOf === "function" && options.indexOf("{") === 0) {
-      console.log("Constructing from stringified json ");
+      // console.log("Constructing from stringified json ");
       try {
         options = JSON.parse(options);
       } catch (exception) {

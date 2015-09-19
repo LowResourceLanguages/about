@@ -4,13 +4,14 @@ var Repository = require("./repository").Repository;
 var shellPromise = require("./shellPromises").execute;
 var utils = require("./utils").utils;
 
-var LIMIT_RUN_SIZE = 2;
+var LIMIT_RUN_SIZE = 100;
 
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
 
   console.log("checkout starting revision");
   shellPromise("git checkout " + options.startingRevision).then(function() {
+    // shellPromise("git checkout experiment/improving-visibility_extract").then(function() {
 
     utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
       options.filelist = filelist;
@@ -47,11 +48,11 @@ var getBaseLineMeasurements = function(options) {
             console.log("There was a problem building this repository from file", exception.stack);
           }
         });
-        console.log("TODO checkout back to current branch HEAD");
-        shellPromise("git checkout master").then(function() {
+        console.log("Checkout back to current branch HEAD");
+        shellPromise("git checkout experiment/improving-visibility_extract").then(function() {
           deferred.resolve(options);
         });
-        
+
       });
     });
 
@@ -105,7 +106,10 @@ var getDeltasBetweenMeasurements = function(options) {
   var promises = [];
 
   // TODO get the timestamp for the first measurement
-  options.data[options.measurementsList[0]].timestamp = 123456778;
+  // options.data[options.measurementsList[0]].timestamp = 123456778;
+
+  var diffPromise = shellPromise("git show --format=%H:%at " + options.measurementsList[0]);
+  promises.push(diffPromise);
 
   for (var i = 1; i < options.measurementsList.length; i++) {
     // Base this measurement on the previous
@@ -118,11 +122,10 @@ var getDeltasBetweenMeasurements = function(options) {
       }
       options.data[options.measurementsList[i]][repoName] = previousRepo.clone();
 
-      var diffPromise = shellPromise("git show --format=%H:%at " + options.measurementsList[i]);
+      diffPromise = shellPromise("git show --format=%H:%at " + options.measurementsList[i]);
       promises.push(diffPromise);
 
     }
-    options.data[options.measurementsList[i]].timestamp = 123456778;
   }
   Q.allSettled(promises).then(function(results) {
     // console.log("diff results ", results);
@@ -133,7 +136,12 @@ var getDeltasBetweenMeasurements = function(options) {
       var lines = result.value.split(/\n/);
       var pieces = lines[0].split(":");
       var revision = pieces[0];
-      var timestamp = pieces[1];
+      var timestamp = pieces[1].trim() * 1000;
+      options.data[revision].timestamp = timestamp;
+      // Ignore first diff
+      if (revision === options.startingRevision) {
+        return;
+      }
       // Chunk diffs by file
       var diffsByRepo = result.value.split("diff --git a/visibility/results/");
       diffsByRepo.map(function(diffSet) {
@@ -150,7 +158,6 @@ var getDeltasBetweenMeasurements = function(options) {
         options.data[revision][repo] = options.data[revision][repo] || new Repository({
           name: repo
         }); // TODO because we are only starting with 2
-        options.data[revision][repo].timestamp = timestamp;
         options.data[revision][repo].updateFromDiff(diffSet);
         console.log(" repo is now", options.data[revision][repo]);
       });
@@ -165,8 +172,8 @@ var exportAsTable = function(options) {
   Q.nextTick(function() {
 
     // prepare the header
-    options.table = [options.attributesToExtract];
-    options.table[0].unshift("date");
+    var header = ["year", "month", "day", "timestamp"].concat(options.attributesToExtract);
+    options.table = [header];
 
     // For each measurement
     options.measurementsList.map(function(revision) {
@@ -177,8 +184,23 @@ var exportAsTable = function(options) {
           continue;
         }
         var asCsv = options.data[revision][repoName].exportAsCSV(options.attributesToExtract);
+        var date = new Date(options.data[revision].timestamp);
         asCsv.unshift(options.data[revision].timestamp);
-        options.table.push(asCsv);
+
+        var withPadding = date.getDate();
+        if (withPadding < 10) {
+          withPadding = "0" + withPadding;
+        }
+        asCsv.unshift(withPadding);
+
+        withPadding = date.getMonth() + 1;
+        if (withPadding < 10) {
+          withPadding = "0" + withPadding;
+        }
+        asCsv.unshift(withPadding);
+
+        asCsv.unshift(date.getFullYear());
+        options.table.push(asCsv.join(","));
       }
     });
 
@@ -193,34 +215,6 @@ var pipeline = {
   getRevisionsList: getRevisionsList,
   getDeltasBetweenMeasurements: getDeltasBetweenMeasurements,
   exportAsTable: exportAsTable
-};
-
-
-var extractResultFromJsonAtRevision = function(revision) {
-  console.log("Working on " + revision);
-
-  var getTimestamp = "git show --no-patch --format=%at " + revision;
-  var timestampPromise = shellPromise(getTimestamp);
-
-  timestampPromise.then(function(timestamp) {
-    if (!timestamp) {
-      return;
-    }
-    timestamp = timestamp.trim();
-    // Make the timestamp javascript rather than unix
-    timestamp = timestamp * 1000;
-
-    console.log(revision + " was at " + new Date(timestamp));
-
-    data[timestamp] = {};
-    data.measurements++;
-    return timestamp;
-  }, function(reason) {
-    return reason;
-  }).fail(function(exception) {
-    return exception;
-  });
-  return timestampPromise;
 };
 
 exports.pipeline = pipeline;

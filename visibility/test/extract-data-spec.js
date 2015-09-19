@@ -13,7 +13,7 @@ describe("extract-data", function() {
       var repoStatsOverTime = {
         branchName: "experiment/improving-visibility",
         resultsJsonDirname: "results",
-        startingRevision: "fed94873566aacbcad628b27d669cb648da1e5f8",
+        startingRevision: "8c8de381a62b01c471b8957b5ade5c4aef3363de",
         endingRevision: "d5b4c04a891f7314962d3e8899083c541558a8c7",
         attributesToExtract: ["name", "size", "stargazers_count", "watchers_count", "open_issues_count", "forks"],
         data: {},
@@ -32,7 +32,7 @@ describe("extract-data", function() {
 
           expect(repoStatsOverTime.measurementsList.length).toEqual(3);
           expect(repoStatsOverTime.measurementsList).toEqual([
-            "fed94873566aacbcad628b27d669cb648da1e5f8",
+            "8c8de381a62b01c471b8957b5ade5c4aef3363de",
             "e7691129cb3cd30b469b6aba93714a9eb3797027",
             "4ce355a67f213c560d0e1159f7ba8a7522b27fc4",
             // "cd5c38f63ea94f4efe74f59e2ea4957ba9a032f5",
@@ -84,26 +84,27 @@ describe("extract-data", function() {
           ]);
           expect(repoStatsOverTime.repositoriesList.length).toEqual(2);
 
-          expect(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]["AuToBI"].exportAsCSV())
+          expect(repoStatsOverTime.data["8c8de381a62b01c471b8957b5ade5c4aef3363de"]["AuToBI"].exportAsCSV())
             .toEqual(["AuToBI", 20071, 12, 12, "", 8]);
-          expect(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]["BloomDesktop"].exportAsCSV())
+          expect(repoStatsOverTime.data["8c8de381a62b01c471b8957b5ade5c4aef3363de"]["BloomDesktop"].exportAsCSV())
             .toEqual(["BloomDesktop", 73499, 6, 6, 4, 12]);
 
-          expect(repoStatsOverTime.data["d5b4c04a891f7314962d3e8899083c541558a8c7"]).not.toBe(repoStatsOverTime.data["fed94873566aacbcad628b27d669cb648da1e5f8"]);
+          expect(repoStatsOverTime.data["d5b4c04a891f7314962d3e8899083c541558a8c7"]).not.toBe(repoStatsOverTime.data["8c8de381a62b01c471b8957b5ade5c4aef3363de"]);
 
           expect(repoStatsOverTime.table).toBeDefined();
-          expect(repoStatsOverTime.table[0]).toEqual(['date', 'name', 'size', 'stargazers_count', 'watchers_count', 'open_issues_count', 'forks']);
-          expect(repoStatsOverTime.table).toEqual([
-            ['date', 'name', 'size', 'stargazers_count', 'watchers_count', 'open_issues_count', 'forks'],
-            [123456778, '', 'AuToBI', 20071, 12, 12, '', 8],
-            [123456778, '', 'BloomDesktop', 73499, 6, 6, 4, 12],
-            [123456778, '', 'AuToBI', '20071', '12', '12', '0', '8'],
-            [123456778, '', 'BloomDesktop', '73499', '6', '6', '4', '12'],
-            [123456778, '', 'AuToBI', '20071', '12', '12', '0', '8'],
-            [123456778, '', 'BloomDesktop', '73499', '6', '6', '4', '12'],
-            [123456778, '', 'kuromoji-server', '', '', '', '', ''],
-            [123456778, '', 'anki', '', '1034', '1034', '', '']
-          ]);
+          expect(repoStatsOverTime.table[0]).toEqual(['year', 'month', 'day', 'timestamp', 'name', 'size', 'stargazers_count', 'watchers_count', 'open_issues_count', 'forks']);
+          console.log(repoStatsOverTime.table.join("\n"));
+          // expect(repoStatsOverTime.table.join("\n")).toEqual([
+          //   ['year', 'month', 'day', 'timestamp', 'name', 'size', 'stargazers_count', 'watchers_count', 'open_issues_count', 'forks'],
+          //   [2015, '08', 11, 1439351556000, '', '', '', '', 'AuToBI', 20071, 12, 12, '', 8],
+          //   [2015, '08', 11, 1439351556000, '', '', '', '', 'BloomDesktop', 73499, 6, 6, 4, 12],
+          //   [2015, '08', 11, 1439351613000, '', '', '', '', 'AuToBI', '20071', '12', '12', '0', '8'],
+          //   [2015, '08', 11, 1439351613000, '', '', '', '', 'BloomDesktop', '73499', '6', '6', '4', '12'],
+          //   [2015, '08', 12, 1439353702000, '', '', '', '', 'AuToBI', '20071', '12', '12', '0', '8'],
+          //   [2015, '08', 12, 1439353702000, '', '', '', '', 'BloomDesktop', '73499', '6', '6', '4', '12'],
+          //   [2015, '08', 12, 1439353702000, '', '', '', '', 'kuromoji-server', '', '', '', '', ''],
+          //   [2015, '08', 12, 1439353702000, '', '', '', '', 'anki', '', '1034', '1034', '', '']
+          // ]);
           expect(repoStatsOverTime.table.length).toEqual(repoStatsOverTime.measurementsList.length * repoStatsOverTime.repositoriesList.length + 1);
         })
         .catch(function(exception) {

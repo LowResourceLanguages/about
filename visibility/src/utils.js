@@ -26,7 +26,7 @@ var readFile = function(filepath) {
       deferred.reject(error);
       return;
     }
-    console.log(" found contents of " + filepath);
+    // console.log(" found contents of " + filepath);
     deferred.resolve(repositoryJson);
   });
 

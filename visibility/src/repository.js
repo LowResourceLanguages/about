@@ -112,7 +112,7 @@ Repository.prototype = Object.create(Object.prototype, {
       var lines = diff.split(/\n/);
       lines.map(function(line) {
         if (line[0] === "+") {
-          console.log("This line is a change" + line);
+          // console.log("This line is a change" + line);
           self.setAttributeFromLine(line);
         }
       });

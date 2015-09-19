@@ -9,45 +9,52 @@ var LIMIT_RUN_SIZE = 2;
 var getBaseLineMeasurements = function(options) {
   var deferred = Q.defer();
 
-  console.log("TODO checkout starting revision");
-  utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
-    options.filelist = filelist;
+  console.log("checkout starting revision");
+  shellPromise("git checkout " + options.startingRevision).then(function() {
 
-    var promises = [];
-    options.filelist.map(function(filename) {
-      if (!filename || promises.length >= LIMIT_RUN_SIZE) {
-        return;
-      }
-      filename = options.resultsJsonDirname + "/" + filename;
-      promises.push(utils.readFile(filename));
-    });
+    utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
+      options.filelist = filelist;
 
-    console.log("waiting on " + promises.length + " results");
-    options.data = options.data || {};
-    options.data[options.startingRevision] = options.data[options.startingRevision] || {};
-    options.repositoriesList = [];
-    Q.allSettled(promises).then(function(results) {
-      // console.log("Files ", results);
-      results.map(function(result) {
-        if (result.state !== "fulfilled") {
-          console.log("This file wasnt read", result);
+      var promises = [];
+      options.filelist.map(function(filename) {
+        if (!filename || promises.length >= LIMIT_RUN_SIZE) {
           return;
         }
-        try {
-          var repo = new Repository(result.value);
-          if (!repo && !repo.name) {
-            console.log("This file wasn't a repo", result);
+        filename = options.resultsJsonDirname + "/" + filename;
+        promises.push(utils.readFile(filename));
+      });
+
+      console.log("waiting on " + promises.length + " results");
+      options.data = options.data || {};
+      options.data[options.startingRevision] = options.data[options.startingRevision] || {};
+      options.repositoriesList = [];
+      Q.allSettled(promises).then(function(results) {
+        // console.log("Files ", results);
+        results.map(function(result) {
+          if (result.state !== "fulfilled") {
+            console.log("This file wasnt read", result);
             return;
           }
-          options.data[options.startingRevision][repo.name] = repo;
-          options.repositoriesList.push(repo.name);
-        } catch (exception) {
-          console.log("There was a problem building this repository from file", exception.stack);
-        }
+          try {
+            var repo = new Repository(result.value);
+            if (!repo && !repo.name) {
+              console.log("This file wasn't a repo", result);
+              return;
+            }
+            options.data[options.startingRevision][repo.name] = repo;
+            options.repositoriesList.push(repo.name);
+          } catch (exception) {
+            console.log("There was a problem building this repository from file", exception.stack);
+          }
+        });
+        console.log("TODO checkout back to current branch HEAD");
+        shellPromise("git checkout master").then(function() {
+          deferred.resolve(options);
+        });
+        
       });
-      console.log("TODO checkout back to current branch HEAD");
-      deferred.resolve(options);
     });
+
   });
   return deferred.promise;
 };

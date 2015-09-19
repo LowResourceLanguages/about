@@ -63,9 +63,9 @@ var Repository = function(options) {
 Repository.DEFAULT_ATTRIBUTES_TO_EXTRACT = ["name", "size", "stargazers_count"];
 
 Repository.fillFromLastKnownMeasurement = function(repoAtPreviousMeasurement) {
-  if (repoAtPreviousMeasurement.exportAsCSV) {
+  if (repoAtPreviousMeasurement.clone) {
     // console.log(".... done");
-    return new Repository(repoAtPreviousMeasurement);
+    return repoAtPreviousMeasurement.clone();
   }
   if (repoAtPreviousMeasurement.repoAtPreviousMeasurement) {
     // console.log("recursing ...", repoAtPreviousMeasurement.repoAtPreviousMeasurement);

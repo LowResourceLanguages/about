@@ -7,13 +7,28 @@ var utils = require("./utils").utils;
 var LIMIT_RUN_SIZE = 100000;
 
 var getBaseLineMeasurements = function(options) {
+  return getFilesAtRevision(options, options.startingRevision);
+};
+
+var getFilesAtRevision = function(options, revision) {
   var deferred = Q.defer();
   if (options && options.attributesToExtract) {
     Repository.DEFAULT_ATTRIBUTES_TO_EXTRACT = options.attributesToExtract;
   }
+  options.data = options.data || {};
+  options.data[revision] = options.data[revision] || {};
 
-  console.log("checkout starting revision");
-  shellPromise("git checkout " + options.startingRevision).then(function() {
+  // fill in the timestamp while the rest is running
+  shellPromise("git show --no-patch --format=%at " + revision).then(function(timestamp) {
+    timestamp = timestamp.trim() * 1000;
+    options.data[revision].timestamp = timestamp;
+    // console.log("Set the timestamp for this revision " + timestamp);
+  }, function(error) {
+    console.log("There was a problem extracting the timestamp for this revision" + revision, error);
+  });
+
+  // console.log("checkout revision " +revision);
+  shellPromise("git checkout " + revision).then(function() {
 
     utils.getFileList(options.resultsJsonDirname).then(function(filelist) {
       options.filelist = filelist;
@@ -28,8 +43,7 @@ var getBaseLineMeasurements = function(options) {
       });
 
       console.log("waiting on " + promises.length + " results");
-      options.data = options.data || {};
-      options.data[options.startingRevision] = options.data[options.startingRevision] || {};
+
       options.repositoriesList = [];
       Q.allSettled(promises).then(function(results) {
         // console.log("Files ", results);
@@ -44,13 +58,13 @@ var getBaseLineMeasurements = function(options) {
               console.log("This file wasn't a repo", result);
               return;
             }
-            options.data[options.startingRevision][repo.name] = repo;
+            options.data[revision][repo.name] = repo;
             options.repositoriesList.push(repo.name);
           } catch (exception) {
             console.log("There was a problem building this repository from file", exception.stack);
           }
         });
-        console.log("Checkout back to current branch HEAD");
+        // console.log("Checkout back to experiment/improving-visibility_scripts");
         shellPromise("git checkout experiment/improving-visibility_scripts").then(function() {
           deferred.resolve(options);
         });
@@ -175,12 +189,41 @@ var getDeltasBetweenMeasurements = function(options) {
   return deferred.promise;
 };
 
+
+var getFileContentsAtRevisions = function(options) {
+  var deferred = Q.defer();
+
+  if (!options.measurementsList) {
+    options.measurementsList = [];
+  }
+
+  var measurementCountDown = options.measurementsList.concat([]);
+  var getFilesAndLoop = function(measurementCountDown) {
+    // console.log(" Remaining revisions to do " + measurementCountDown);
+    var revision = measurementCountDown.shift();
+    if (!revision) {
+      deferred.resolve(options);
+      return;
+    }
+    var dataAtThisRevisionPromise = getFilesAtRevision(options, revision);
+    dataAtThisRevisionPromise.then(function() {
+      getFilesAndLoop(measurementCountDown);
+    }, function() {
+      console.log("This revision's data will be (partially) missing" + revision);
+      getFilesAndLoop(measurementCountDown);
+    });
+  };
+
+  getFilesAndLoop(measurementCountDown);
+  return deferred.promise;
+};
+
 var exportAsTable = function(options) {
   var deferred = Q.defer();
   Q.nextTick(function() {
 
     // prepare the header
-    var header = ["year", "month", "day", "timestamp"].concat(options.attributesToExtract);
+    var header = ["year", "month", "day", "timestamp", "revision"].concat(options.attributesToExtract);
     options.table = [header];
 
     // For each measurement
@@ -197,6 +240,7 @@ var exportAsTable = function(options) {
         }
         var asCsv = options.data[revision][repoName].exportAsCSV(options.attributesToExtract);
         var date = new Date(options.data[revision].timestamp);
+        asCsv.unshift(revision);
         asCsv.unshift(options.data[revision].timestamp);
 
         var withPadding = date.getDate();
@@ -226,6 +270,7 @@ var pipeline = {
   getBaseLineMeasurements: getBaseLineMeasurements,
   getRevisionsList: getRevisionsList,
   getDeltasBetweenMeasurements: getDeltasBetweenMeasurements,
+  getFileContentsAtRevisions: getFileContentsAtRevisions,
   exportAsTable: exportAsTable
 };
 

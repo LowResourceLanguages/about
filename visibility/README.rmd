@@ -4,7 +4,7 @@ title: "Measurements of visibility"
 output: html_document
 ---
 
-In this study we will endevour to increase the visibility of LRL codebases on GitHub. We hyptheizse that making GitHub stargazers a more visually prominate feature of the list will lead to more stars on the projects.
+In this study we will endevour to increase the visibility of LRL codebases on GitHub. We hypotheizse that making GitHub stargazers a more visually prominate feature of the list will lead to more stars on the projects.
 
 # Methodology
 
@@ -73,6 +73,8 @@ pipeline.getRevisionsList(repoStatsOverTime)
 
 # Results
 
+We have extracted the results as a table of observations which can be loaded in LibreOffice or R. Thus far, we can see from the data that there will not be any conclusive results as to whether or not introducing star badges on the list had any effect in promoting the visilibility of the projects. Nontheless, the data remain interesting to browse and explore.
+
 ```{r echo=FALSE}
 knitr::read_chunk("src/visibility.r")
 ```
@@ -83,20 +85,42 @@ knitr::read_chunk("src/visibility.r")
 
 Load the data
 
-```{r loadData}
+```{r }
+longitudinal_visibility <- read.csv("longitudinal_visibility.csv")
 ```
 
-Describe the data
+Here is what the data looks like.
 
-```{r describeData}
+```{r }
+dim(longitudinal_visibility)
+
+object.size(longitudinal_visibility) # Size of longitudinal_visibility in bytes
+names(longitudinal_visibility) # columns
+summary(longitudinal_visibility)
+str(longitudinal_visibility)
 ```
 
-View historams
+There are roughly two types of repositories in the list, repositories for Natural Language Processing (NLP) which are popular, and Low Resource Languages (LRL) which are not expected to be popular among the software developer community as a whole. This distribution can be seen in the histograms below.
 
-```{r viewHistograms}
+```{r }
+hist(longitudinal_visibility$size, xlab="Repository size")
+hist(longitudinal_visibility$stargazers_count, xlab="Number of  stargazers")
+hist(longitudinal_visibility$subscribers_count, xlab="Number of watchers" )
+hist(longitudinal_visibility$open_issues_count, xlab="Number of open issues")
+hist(longitudinal_visibility$forks, xlab="Number of forks")
+
 ```
 
-View Scatterplots
+Most projects have 0 stars (stars a relatively new feature on GitHub and not all GitHub users use them yet). In the scatterplots below we see that smaller repositories tend to have more stars (perhaps indicating they were designed to be digestable in other projets), while none of the larger projects have stars yet (perhaps these projects are larger research projects which are using GitHub for project management rather than publication).
 
-```{r viewScatterplots}
+
+```{r }
+plot(c(longitudinal_visibility$size, longitudinal_visibility$stargazers_count), xlab="Size", ylab="Stars")
+```
+
+The number of forks was a more common measure of popularity before GitHub introduced stars. In this plot we can see that repositories with the most stars, might also have a lot of forks.
+
+```{r }
+plot(c(longitudinal_visibility$forks, longitudinal_visibility$stargazers_count), xlab="Forks", ylab="Stars")
+
 ```

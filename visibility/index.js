@@ -12,8 +12,12 @@ var repoStatsOverTime = {
   repositoriesList: []
 };
 
-pipeline.getRevisionsList(repoStatsOverTime)
-  .then(pipeline.getFileContentsAtRevisions)
+
+pipeline.getBaseLineMeasurements(repoStatsOverTime)
+  .then(pipeline.getRevisionsList)
+  .then(pipeline.getDeltasBetweenMeasurements)
+  // pipeline.getRevisionsList(repoStatsOverTime)
+  //   .then(pipeline.getFileContentsAtRevisions)
   .then(pipeline.exportAsTable)
   .then(function(result) {
     console.log("Done");

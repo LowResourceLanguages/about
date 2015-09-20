@@ -141,7 +141,7 @@ Repository.prototype = Object.create(Object.prototype, {
 
       optionalAttributes.map(function(attribute) {
         // console.log("looking for " + attribute, self[attribute]);
-        asCSV.push(self[attribute] ? self[attribute] : "");
+        asCSV.push(self[attribute] ? self[attribute] : "0");
       });
       return asCSV;
     }

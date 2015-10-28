@@ -3,10 +3,10 @@ A meta repository for discussion, planning, and documentation of this organizati
 
 ## LowResouceLanguages
 
-This GitHub organization was created:
-	- To provide a place for people to upload projects related to low resource language that they do not want on their personal or institutional accounts;
-	- To mirror code hosted on other sites, such as SourceForge or institutional or personal websites, where the longevity of the web hosting is not sure and hosting it here ensures that it will have a place to stay;
-	- To fork projects on GitHub that may be in danger of being removed or becoming stale due to lack of community effort.
+This GitHub organization was created:  
+- To provide a place for people to upload projects related to low resource language that they do not want on their personal or institutional accounts;  
+- To mirror code hosted on other sites, such as SourceForge or institutional or personal websites, where the longevity of the web hosting is not sure and hosting it here ensures that it will have a place to stay;  
+- To fork projects on GitHub that may be in danger of being removed or becoming stale due to lack of community effort.  
 
 ## FAQ
 

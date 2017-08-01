@@ -8,6 +8,10 @@ This GitHub organization was created:
 - To mirror code hosted on other sites, such as SourceForge or institutional or personal websites, where the longevity of the web hosting is not sure and hosting it here ensures that it will have a place to stay;  
 - To fork projects on GitHub that may be in danger of being removed or becoming stale due to lack of community effort.  
 
+## Slack
+
+[Join our Slack community!](https://join.slack.com/t/lowresourcelanguages/shared_invite/MjIwNDk3ODQxNDU4LTE1MDE1OTM1NjYtMTJkNGMyNzRjMQ)
+
 ## FAQ
 
 *I've been invited and I'm not sure why.*
